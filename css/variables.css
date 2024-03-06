@@ -10,3 +10,26 @@
 	--dark-blue: #0C5FCD;
 	--red: #FC3B56;
 }
+
+/*estilos generales*/
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+input[type="checkbox"]{
+    display: none;
+}
+/*--- conf iniciales ---*/
+body {
+	padding: .5rem;
+	background: var(--grey);
+	overflow-x: hidden;
+}

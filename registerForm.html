@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+    <!-- en la pagina primcipal, esto debe ir dentro de la etiqueta main para mantener las posiciones-->
+    <div class="container-form">
+
+        <form class="register__form">
+            <h2>Formulario de registro de activos</h2>
+            <!-- codigo de transaccion-->
+            <div>
+                <label for="active-code">Codigo de la transaccion: </label>
+                <input  class="input__form" type="number" id="active-code">
+            </div>
+
+            <!-- nombre-->
+            <div>
+                <label for="active-name">Numero de formulario: </label>
+                <input class="input__form" type="number" id="active-name">
+            </div>
+
+            <div>
+                <!-- serial-->
+                <label for="active-serial">Numero del serial: </label>
+                <input class="input__form" type="text" id="active-serial">
+            </div>
+
+            <div>
+                <!-- Valor unitario-->
+                <label for="active-value">valor Unitario del activo: </label>
+                <input class="input__form" type="number" id="active-value">
+            </div>
+
+            <div>
+            <!-- categoria-->
+                <label for="active-category">Categoria del activo: </label>
+                <select  id="active-category">
+                    <option value="category-1">id1 - NombreCategoria1</option>
+                    <option value="category-2">id2 - NombreCategoria2</option>
+                    <option value="category-3">id3 - NombreCategoria3</option>
+                </select>                
+            </div>
+
+            <div>
+                <!-- tipo-->
+                <label for="active-type">tipo del activo: </label>
+                <select  id="active-type">
+                    <option value="type-1">id1 - Nombretipo1</option>
+                    <option value="type-2">id2 - Nombretipo2</option>
+                    <option value="type-3">id3 - Nombretipo3</option>
+                </select>                  
+            </div>
+
+
+            <div>
+                <!-- Estado del activo-->
+                <label for="active-status">Estado del activo: </label>
+                <select  id="active-status">
+                    <option value="status-1">id1 - NombreEstado1</option>
+                    <option value="status-2">id2 - NombreEstado2</option>
+                    <option value="status-3">id3 - NombreEstado3</option>
+                </select>
+            </div>
+
+            <div>
+                <!--Marca del activo -->
+                <label for="active-brand">Marca del activo: </label>
+                <select  id="active-brand">
+                    <option value="brand-1">id1 - NombreMarca1</option>
+                    <option value="brand-2">id2 - NombreMarca2</option>
+                    <option value="brand-3">id3 - NombreMarca3</option>
+                </select>                
+            </div>
+
+            <div>
+                <!-- Empresa responsable-->
+                <label for="active-company">Proovedor del activo: </label>
+                <select  id="active-company">
+                    <option value="company-1">id1 - NombreProovedor1</option>
+                    <option value="company-2">id2 - NombreProovedor2</option>
+                    <option value="company-3">id3 - NombreProovedor3</option>
+                </select>                
+            </div>
+
+
+            <button class="register__form--submit" id="saveAct">registrar Activo</button>
+        </form>
+    </div>
+</body>
+</html>
