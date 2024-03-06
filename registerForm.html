@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
     <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
     <!-- en la pagina primcipal, esto debe ir dentro de la etiqueta main para mantener las posiciones-->
+    <!-- REGISTRO DE ACTIVOS-->
     <div class="container-form">
 
         <form class="register__form">
@@ -26,7 +28,7 @@
 
             <div>
                 <!-- serial-->
-                <label for="active-serial">Numero del serial: </label>
+                <label for="person-email">Numero del serial: </label>
                 <input class="input__form" type="text" id="active-serial">
             </div>
 
@@ -40,9 +42,9 @@
             <!-- categoria-->
                 <label for="active-category">Categoria del activo: </label>
                 <select  id="active-category">
-                    <option value="category-1">id1 - NombreCategoria1</option>
-                    <option value="category-2">id2 - NombreCategoria2</option>
-                    <option value="category-3">id3 - NombreCategoria3</option>
+                    <option value="active-category-1">id1 - NombreCategoria1</option>
+                    <option value="active-category-2">id2 - NombreCategoria2</option>
+                    <option value="active-category-3">id3 - NombreCategoria3</option>
                 </select>                
             </div>
 
@@ -50,9 +52,9 @@
                 <!-- tipo-->
                 <label for="active-type">tipo del activo: </label>
                 <select  id="active-type">
-                    <option value="type-1">id1 - Nombretipo1</option>
-                    <option value="type-2">id2 - Nombretipo2</option>
-                    <option value="type-3">id3 - Nombretipo3</option>
+                    <option value="active-type-1">id1 - Nombretipo1</option>
+                    <option value="active-type-2">id2 - Nombretipo2</option>
+                    <option value="active-type-3">id3 - Nombretipo3</option>
                 </select>                  
             </div>
 
@@ -65,6 +67,86 @@
                     <option value="status-2">id2 - NombreEstado2</option>
                     <option value="status-3">id3 - NombreEstado3</option>
                 </select>
+            </div>
+
+            <div>
+                <!--Marca del activo -->
+                <label for="active-brand">Marca del activo: </label>
+                <select  id="active-brand">
+                    <option value="brand-1">id1 - NombreMarca1</option>
+                    <option value="brand-2">id2 - NombreMarca2</option>
+                    <option value="brand-3">id3 - NombreMarca3</option>
+                </select>                
+            </div>
+
+            <div>
+                <!-- Empresa responsable-->
+                <label for="active-company">Proovedor del activo: </label>
+                <select  id="active-company">
+                    <option value="company-1">id1 - NombreProovedor1</option>
+                    <option value="company-2">id2 - NombreProovedor2</option>
+                    <option value="company-3">id3 - NombreProovedor3</option>
+                </select>                
+            </div>
+
+
+            <button class="register__form--submit" id="saveAct">registrar Activo</button>
+        </form>
+    </div>
+
+    <!-- REGISTRO DE PERSONAS-->
+    <div class="container-form">
+
+        <form class="register__form">
+            <h2>Formulario de registro de PERSONAS</h2>
+
+            <!-- nombre-->
+            <div>
+                <label for="person-name">Nombre: </label>
+                <input class="input__form" type="text" id="person-name" required>
+            </div>
+
+            <div>
+                <!-- Email-->
+                <label for="person-email">Emaill: </label>
+                <input class="input__form" type="email" id="person-email" required>
+            </div>
+
+            <div>
+            <!-- Tipo ed persona-->
+                <label for="person-type">Tipo de persona: </label>
+                <select  id="person-type">
+                    <option value="type-1">id1 - tipoPersona1</option>
+                    <option value="type-2">id2 - tipoPersona2</option>
+                    <option value="type-3">id3 - tipoPersona3</option>
+                </select>                
+            </div>
+
+
+            <div class="register__sub-form">
+                <h2>Telefono</h2>
+                <div>
+                    <label for="active-status">Estado del activo: </label>
+                    <select  id="active-status">
+                        <option value="status-1">id1 - NombreEstado1</option>
+                        <option value="status-2">id2 - NombreEstado2</option>
+                        <option value="status-3">id3 - NombreEstado3</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="active-status">Estado del activo: </label>
+                    <select  id="active-status">
+                        <option value="status-1">id1 - NombreEstado1</option>
+                        <option value="status-2">id2 - NombreEstado2</option>
+                        <option value="status-3">id3 - NombreEstado3</option>
+                    </select>
+                </div>
+                
+                <button class="add__info" id="add__phone">
+                    <i class='bx bx-plus'></i>
+                </button>
+
             </div>
 
             <div>
