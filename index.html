@@ -4,10 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" defer></script>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'> 
     <link rel="stylesheet" href="css/main.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>Sistema de gestion de inventario</h1>
+    <!-- side bar-->
+    <input type="checkbox" id="drop-sidebar">
+    <nav id="sidebar">
+		<ul class="side-menu">
+			<li>
+                <!-- Activos -->
+                <input type="checkbox" id="menu-activo">
+                <label class="side-menu__subtitle" for="menu-activo">
+                    <i class='bx bxs-package' ></i> 
+                    <p> Activos</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+
+            <li>
+                <!-- Tipo activo -->
+                <input type="checkbox" id="menu-type">
+                <label class="side-menu__subtitle" for="menu-type">
+                    <i class='bx bx-pin' ></i>
+                    <p> Tipo activo</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+            <li>
+                <!-- estados -->
+                <input type="checkbox" id="menu-status">
+                <label class="side-menu__subtitle" for="menu-status">
+                    <i class='bx bx-error' ></i> 
+                    <p> Estados</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+            <li>
+                <!-- marcas -->
+                <input type="checkbox" id="menu-marcas">
+                <label class="side-menu__subtitle" for="menu-marcas">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    <p> Marcas</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+            <li>
+                <!-- Personas -->
+                <input type="checkbox" id="menu-person">
+                <label class="side-menu__subtitle" for="menu-person">
+                    <i class='bx bxs-user'></i>
+                    <p>personas</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+
+            <li>
+                <!-- Tipo personas -->
+                <input type="checkbox" id="menu-person-type">
+                <label class="side-menu__subtitle" for="menu-person-type">
+                    <i class='bx bxs-user-detail' ></i>
+                    <p> Tipo personas</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+            <li>
+                <!-- Tipo movimiento del activo -->
+                <input type="checkbox" id="menu-mov-activo">
+                <label class="side-menu__subtitle" for="menu-mov-activo">
+                    <i class='bx bxs-component'></i>
+                    <p> Tipo de movimiento del activo</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option">Eliminar</a></li>
+					<li><a class="dropdown__option">Editar</a></li>
+					<li><a class="dropdown__option">Buscar</a></li>
+				</ul>
+			</li>
+
+            <li>
+                <!-- Asignacion -->
+                <input type="checkbox" id="menu-asignacion">
+                <label class="side-menu__subtitle" for="menu-asignacion">
+                    <i class='bx bxs-share-alt'></i>
+                    <p> Asignacion</p>
+                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+                </label>
+
+                <!-- dropdown-->
+				<ul class="side-menu__dropdown">
+					<li><a class="dropdown__option"href="#">Crear</a></li>
+					<li><a class="dropdown__option">Asignar activos</a></li>
+					<li><a class="dropdown__option">Retornar activos</a></li>
+				</ul>
+			</li>
+
+
+
+            
+	</nav>
+
+    <!-- header  -->
+    
+        <header>
+            
+            <img src="storage/img/campuslands.png" alt="logo-campuslands.png">
+            <h1>Sistema  de inventario</h1>  
+            <label for="drop-sidebar"><i class='bx bx-menu header__icon' ></i></label>
+        </header>
+        <main>
+            wqd
+        </main>
+
+   
+
 </body>
 </html>

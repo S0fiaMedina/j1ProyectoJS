@@ -1,1 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
 @import url('variables.css');
+
+/* reseteo de estilos*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+input[type="checkbox"]{
+    display: none;
+}
+/*--- conf iniciales ---*/
+body {
+	background: var(--grey);
+	overflow-x: hidden;
+}
+
+
+/* ----SIDEBAR ----*/
+#sidebar{
+    position: fixed;
+    top: 110px;
+	left: 0;
+    height: calc(100vh - 130px);
+	max-width: 260px;
+	width: 100%;
+	background: var(--light);
+	scrollbar-width: none;
+	transition: all .3s ease;
+	z-index: 200;
+	overflow-y: scroll;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+/*estilos de los elementos internos del menu*/
+.side-menu__subtitle,
+.dropdown__option{
+	display: flex;
+    justify-content: space-between;
+	align-items: center;
+	font-size: 1rem;
+	color: var(--dark);
+	padding: 1rem;
+	transition: all .3s ease;
+	border-radius: 10px;
+	margin: 4px 0;
+    gap: 1rem;
+}
+
+.side-menu__subtitle i{
+    font-size: 1.5rem;
+    transition:  ease .3s;
+}
+/*-- logica del dropdown ---*/
+
+/*oculta menu crud*/
+.side-menu__dropdown{
+    display: none;
+    transition:  ease .3s;
+ 
+}
+/*rota la flechita*/
+.side-menu li input[type="checkbox"]:checked + .side-menu__subtitle .side-menu__arrow {
+    transform: rotate(90deg);
+}
+.side-menu li input[type="checkbox"]:checked + .side-menu__subtitle{
+    background-color: var(--blue);
+    color: var(--light);
+}
+/*muestra el menu*/
+.side-menu li input[type="checkbox"]:checked ~ .side-menu__dropdown {
+   display: block;
+}
+.sidebar:hover,
+#drop-menu:checked ~ .sidebar{
+    width: 500px;
+}
+
+
+/*----- estilos del header -----*/
+header{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    height: 90px;
+    background-color: var(--light);
+}
+.header__icon{
+    font-size: 2.5rem;
+    display: none;
+    color: var(--blue);
+    position: absolute;
+    top:1.5rem;
+    right: 1rem;
+}
+header  img{
+    height : 90px;
+    width: 100px;
+}
+h1{
+    text-align: center;
+
+}
+
+/*---- MAIN ---*/
+main{
+    position: absolute;
+    top: 120px;
+    left: 300px;
+}
+/*--- RESPONSIVE ---*/
+@media (max-width: 600px){ 
+    /*--- header ---*/
+
+    h1{
+        font-size: 1.2rem;
+    }
+    .header__icon{
+        display: block;
+    }
+    .content-wrapper  header > img{
+        height : 60px;
+        width: 60px;
+    }
+
+    /*contenido principal*/
+#sidebar{
+    transform: translateX(-500px);
+    transition: transform ease .6s;
+  
+}
+#drop-sidebar:checked ~ #sidebar{
+    transform: translateX(0);
+} 
+}
+
