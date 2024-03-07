@@ -63,7 +63,7 @@
         </section>
 
         <!-- REGISTRO DE PERSONAS-->
-        <section class="container-form">
+        <section class="container-form" >
 
             <form class="register__form">
                 <h2>Formulario de registro de PERSONAS</h2>
@@ -95,29 +95,32 @@
                     </select>                
                 </div>
 
-                <!-- no se si haya que agregar otro form para separar la data :p-->
-                <div class="register__sub-form">
-                    <h2>Telefono</h2>
-                    
-                    <div>
-                        <!-- Numero de telefono-->
-                        <label for="person-phone1">Numero de telefono: </label>
-                        <input class="input__form" type="number" id="person-phone" required>
-                    </div>
-                                    
-                    <div>
-                        <!-- Ubicacion-->
-                        <label for="person-phone-ubicacion">Ubicacion: </label>
-                        <input class="input__form" type="text" id="person-phone-ubicacion" required>
-                    </div>
-                    <button class="add__info" id="add__phone">
-                        Añadir otro telefono
-                        <i class='bx bx-plus'></i>
-                    </button>
-
-                </div>
 
                 <button class="register__form--submit" id="add-person-id">registrar persona</button>
+            </form>
+
+
+        </section>
+        <section class="container-form">
+            <form class="register__form form__phone">
+                <h2>Telefono</h2>
+                
+                <div>
+                    <!-- Numero de telefono-->
+                    <label for="person-phone1">Numero de telefono: </label>
+                    <input class="input__form" type="number" id="person-phone1" required>
+                </div>
+                                
+                <div>
+                    <!-- Ubicacion-->
+                    <label for="person-phone-ubicacion">Ubicacion: </label>
+                    <input class="input__form" type="text" id="person-phone-ubicacion" required>
+                </div>
+                <button class="add__info" id="add__phone">
+                    Añadir otro telefono
+                    <i class='bx bx-plus'></i>
+                </button>
+
             </form>
         </section>
 
@@ -172,7 +175,7 @@
 
                 </div>
 
-                <button class="register__form--submit" id="update-person-id">registrar persona</button>
+                <button class="register__form--submit" id="update-person-id" type="submit">registrar persona</button>
             </form>
         </section>
     </main>

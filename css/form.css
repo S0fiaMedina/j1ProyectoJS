@@ -3,25 +3,25 @@
 
 /*contenedor del formulario del registro*/
 .container-form{
+    margin-top:20px;
     width: 100%;
     display: flex;
     justify-content: center;
 	border-radius: 1rem;
 	background: var(--light);
 	box-shadow: 4px 4px 16px rgba(0, 0, 0, .05);
-    
 }
 
 
 /*Estilos generales del formulario y subformulario*/
-.register__form,
-.register__sub-form{
+.register__form{
     display:flex;
     justify-content: center;
     flex-direction: column;
     padding: 1rem;
     gap: 1rem;
 }
+
 /*estilos generales del formulario*/
 .register__form{
     width: 70%; /*!!!*/
@@ -35,7 +35,7 @@
 }
 
 /*inputs y labels*/
-.register__form div:not(.register__sub-form){
+.register__form div{
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
@@ -66,14 +66,11 @@ option{
 input:focus{
     box-shadow: 0 0 0 1px var(--blue), 0 0 0 4px var(--light-blue);
 }
-/*-- subform --*/
-
-.register__sub-form{
-    margin-top: 1rem;
-    display: flex;
-    border-radius: 1rem;
-    border: 1px solid var(--blue)
+/*-- formulario del telefono --*/
+.form__phone{
+    width: 50%;
 }
+
 .add__info{
     align-self: center;
 }
@@ -108,12 +105,10 @@ input:focus{
     }
 }
 @media(max-width: 400px){
-    .register__form,
-    .register__sub-form{
+    .register__form{
         align-items: center;
     }
-    .register__form div,
-    .register__sub-form{
+    .register__form div{
         flex-direction: column;
     }
 }
