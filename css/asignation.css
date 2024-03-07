@@ -1,0 +1,12 @@
+
+
+/*contenedor general*/
+.asignation-form{
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-asignation{
+    align-self: center;
+}
+

@@ -1,0 +1,108 @@
+@import url('variables.css');
+
+/*--- estilos generales del contenedor ---*/
+.container-crud{
+    height: 70vh;
+    width: 100%; /*!!!*/
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap:1rem;
+	border-radius: 1rem;
+	background: var(--light);
+	box-shadow: 4px 4px 16px rgba(0, 0, 0, .05);
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+
+/*contenedor de la barra de busqueda (header)*/
+.crud__search-bar{
+    height: 2.3rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;  
+}
+/*input*/
+.crud__search__input{
+    width: 100%;
+    border-radius: .3rem;
+    padding: .5rem;
+    border: none;
+    outline: none;
+    background: var(--grey);
+}
+input:focus,
+.crud__search-result:hover{
+    box-shadow: 0 0 0 1px var(--blue), 0 0 0 4px var(--light-blue);
+}
+
+/*boton de busqueda*/
+.crud__search-bar button,
+.crud__search-result button{
+    padding: .5rem;
+    width: 3rem;
+    background: var(--blue);
+    color: var(--light);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.crud__search-bar button:hover{
+    background: var(--dark-blue);
+}
+i{
+    font-size: 1rem;
+}
+
+/*---- contenido principal ----*/
+.container-crud__body{
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+}
+.crud__search-result{
+    background-color: var(--grey);
+    padding: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:.7rem;
+    flex-wrap: wrap;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .05);
+    border-radius: 1rem;   
+}
+/*agrega propieedades especificas al button de eliminar*/
+.crud__search-result button{
+    padding: .3rem;
+    width: auto;
+}
+.crud__search-result button:hover{
+    transform: scale(1.2);
+    background-color: var(--red);
+}
+.crud__search-result button i{
+    font-size: 1.5rem;
+}
+@media (max-width: 550px){
+    /*container*/
+    .container-crud{
+        width: 90vw;
+    }
+    /*barra dde busqueda*/
+    .search-result h3,
+    .search-result p{
+        font-size: .7rem;
+    }
+    /*resultado de busqueda*/
+    .crud__search-result button{
+        padding: .3rem;
+    }
+    .crud__search-result button i{
+        font-size: 1rem;
+    }
+}

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
-    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="../css/form.css">
 </head>
 <body>
     <!-- en la pagina primcipal, esto debe ir dentro de la etiqueta main para mantener las posiciones-->
@@ -94,84 +94,7 @@
         </form>
     </div>
 
-    <!-- REGISTRO DE PERSONAS-->
-    <div class="container-form">
 
-        <form class="register__form">
-            <h2>Formulario de registro de PERSONAS</h2>
-
-            <!-- nombre-->
-            <div>
-                <label for="person-name">Nombre: </label>
-                <input class="input__form" type="text" id="person-name" required>
-            </div>
-
-            <div>
-                <!-- Email-->
-                <label for="person-email">Emaill: </label>
-                <input class="input__form" type="email" id="person-email" required>
-            </div>
-
-            <div>
-            <!-- Tipo ed persona-->
-                <label for="person-type">Tipo de persona: </label>
-                <select  id="person-type">
-                    <option value="type-1">id1 - tipoPersona1</option>
-                    <option value="type-2">id2 - tipoPersona2</option>
-                    <option value="type-3">id3 - tipoPersona3</option>
-                </select>                
-            </div>
-
-
-            <div class="register__sub-form">
-                <h2>Telefono</h2>
-                <div>
-                    <label for="active-status">Estado del activo: </label>
-                    <select  id="active-status">
-                        <option value="status-1">id1 - NombreEstado1</option>
-                        <option value="status-2">id2 - NombreEstado2</option>
-                        <option value="status-3">id3 - NombreEstado3</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="active-status">Estado del activo: </label>
-                    <select  id="active-status">
-                        <option value="status-1">id1 - NombreEstado1</option>
-                        <option value="status-2">id2 - NombreEstado2</option>
-                        <option value="status-3">id3 - NombreEstado3</option>
-                    </select>
-                </div>
-                
-                <button class="add__info" id="add__phone">
-                    <i class='bx bx-plus'></i>
-                </button>
-
-            </div>
-
-            <div>
-                <!--Marca del activo -->
-                <label for="active-brand">Marca del activo: </label>
-                <select  id="active-brand">
-                    <option value="brand-1">id1 - NombreMarca1</option>
-                    <option value="brand-2">id2 - NombreMarca2</option>
-                    <option value="brand-3">id3 - NombreMarca3</option>
-                </select>                
-            </div>
-
-            <div>
-                <!-- Empresa responsable-->
-                <label for="active-company">Proovedor del activo: </label>
-                <select  id="active-company">
-                    <option value="company-1">id1 - NombreProovedor1</option>
-                    <option value="company-2">id2 - NombreProovedor2</option>
-                    <option value="company-3">id3 - NombreProovedor3</option>
-                </select>                
-            </div>
-
-
-            <button class="register__form--submit" id="saveAct">registrar Activo</button>
-        </form>
-    </div>
+    
 </body>
 </html>

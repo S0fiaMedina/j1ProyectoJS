@@ -3,7 +3,7 @@
 
 /*contenedor del formulario del registro*/
 .container-form{
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
 	border-radius: 1rem;
@@ -24,6 +24,7 @@
 }
 /*estilos generales del formulario*/
 .register__form{
+    width: 70%; /*!!!*/
     overflow-y: scroll;
     height: 100%;
     scrollbar-width: none;
@@ -48,13 +49,16 @@
     flex: 1;
 }
 /*-- inputs --*/
-input, select{
+input, select, textarea{
     flex: 2;
     border-radius: .3rem;
     padding: .5rem;
     border: none;
     outline: none;
     background: var(--grey);
+}
+textarea{
+    resize: none;
 }
 option{
     padding: .5rem;
@@ -65,14 +69,21 @@ input:focus{
 /*-- subform --*/
 
 .register__sub-form{
+    margin-top: 1rem;
     display: flex;
     border-radius: 1rem;
-    box-shadow: 0px 0px 5px 1px rgba(208,228,255,1);   
+    border: 1px solid var(--blue)
 }
-
-/*--- boton de submit --*/
+.add__info{
+    align-self: center;
+}
+.add__info i{
+    font-size: 20px;
+}
+/*--- botones--*/
 .register__form--submit,
-.add__phone{
+.add__info{
+    width: 10rem;
     padding: 1rem;
     margin-top: 1rem;
     background: var(--blue);
@@ -82,7 +93,12 @@ input:focus{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.register__form--submit:hover{
+
+.add__info{
+    padding: .5rem;
+}
+.register__form--submit:hover,
+.add__info:hover{
     background: var(--dark-blue);
 }
 

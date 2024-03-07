@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
-@import url('variables.css');
+@import url('variables.css'); /*conf general*/
+@import url('form.css'); /*estilos de los formularios*/
+@import url('crud.css'); /*estilos del crud*/
+@import url('asignation.css');
 
 
 /* ----SIDEBAR ----*/
@@ -102,7 +104,7 @@ main{
     position: absolute;
     top: 120px;
     left: 300px;
-    width: 100%;
+    width: calc(100vw - 320px);
 }
 /*--- RESPONSIVE ---*/
 @media (max-width: 600px){ 
@@ -129,9 +131,10 @@ main{
     main{
         left: 1rem;
     }
-    .content-wrapper  header > img{
+    header > img{
         height : 60px;
         width: 60px;
     }
 }
+
 
