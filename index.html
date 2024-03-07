@@ -6,6 +6,7 @@
     <script type="module" defer></script>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'> 
     <link rel="stylesheet" href="css/main.css">
+    <script defer src="js/add.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -24,18 +25,18 @@
 
                 <!-- dropdown-->
 				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__option">Buscar</a></li>
+					<li><p class="dropdown__option" data-type="add">Agregar</p></li>
+					<li><p class="dropdown__option">Eliminar</p></li>
+					<li><p class="dropdown__option">Editar</p></li>
+					<li><p class="dropdown__option">Buscar</p></li>
 				</ul>
 			</li>
 
 
             <li>
                 <!-- Tipo activo -->
-                <input type="checkbox" id="menu-type">
-                <label class="side-menu__subtitle" for="menu-type">
+                <input type="checkbox" id="menu-active-type">
+                <label class="side-menu__subtitle" for="menu-active--type">
                     <i class='bx bx-pin' ></i>
                     <p> Tipo activo</p>
                     <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
@@ -43,7 +44,7 @@
 
                 <!-- dropdown-->
 				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
+					<li><a class="dropdown__option"data-type="create-active-type">Agregar</a></li>
 					<li><a class="dropdown__option">Eliminar</a></li>
 					<li><a class="dropdown__option">Editar</a></li>
 					<li><a class="dropdown__option">Buscar</a></li>
@@ -156,11 +157,7 @@
 					<li><a class="dropdown__option">Asignar activos</a></li>
 					<li><a class="dropdown__option">Retornar activos</a></li>
 				</ul>
-			</li>
-
-
-
-            
+			</li>         
 	</nav>
 
     <!-- header  -->

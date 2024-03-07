@@ -1,1 +1,2 @@
-console.log('Hola mundo :D');
+import "./add.js";
+
