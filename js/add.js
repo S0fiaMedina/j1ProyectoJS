@@ -58,7 +58,7 @@ function addForm(newForm, title, isEdit){
                     const div = document.createElement('div');                     
                     div.innerHTML = `
                         <label for="${input.value[0]}">${input.value[1]}: </label>
-                        <input class="input__form" type="${input.typeInput}" id="${input.value[0]}" min="0">
+                        <input class="input__form" type="${input.typeInput}" id="${input.value[0]}" name="${input.value[2]}" min="0">
                     `
                    
                     //Agrega el id de phone
@@ -91,10 +91,14 @@ function addForm(newForm, title, isEdit){
 
             case 'submit':
                 const btnSubmit = document.createElement('button');
-                btnSubmit.classList.add('register__form--submit');
+                btnSubmit.classList.add('register__form--submit'); //Clase de los botones (addEventLister)
                 btnSubmit.setAttribute('id', input.value[0]);
+                btnSubmit.setAttribute('name', input.value[2]);
+
+                
                 btnSubmit.textContent = input.value[1];
                 form.appendChild(btnSubmit);
+                loadButton();
                 break;
         }
     
@@ -104,4 +108,15 @@ function addForm(newForm, title, isEdit){
 function addSearchWindow(){
 
 }
+
+function loadButton(){
+    //FUNCION DE ESCUCHA
+    document.querySelector('.register__form--submit').addEventListener('click', (e)=>{
+        e.preventDefault();
+        console.log('...');
+    })
+}
+
+
+
 

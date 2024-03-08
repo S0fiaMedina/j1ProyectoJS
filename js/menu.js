@@ -3,11 +3,13 @@ import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actType
 
 const menuData = [
     {title: "activos", idDrop : "menu-active" ,icon : "bx bxs-package", infoForm : JSON.stringify(activeInfo)},
-    //Terminar de agregar menu
+    {title: "tipo de activos", idDrop : "menu-active-type" ,icon : "bx bx-pin", infoForm : JSON.stringify(actTypeInfo)},
+    {title: "estados", idDrop : "menu-status" ,icon : "bx bx-error", infoForm : JSON.stringify(statusInfo)},
+    {title: "marcas", idDrop : "menu-brands" ,icon : "bx bxs-bar-chart-alt-2", infoForm : JSON.stringify(brandInfo)},
+    {title: "tipo de personas", idDrop : "menu-person-type" ,icon : "bx bxs-user-detail", infoForm : JSON.stringify(personTypeInfo)},
+    {title: "tipo movimiento del activo", idDrop : "menu-mov-active" ,icon : "bx bxs-component", infoForm : JSON.stringify(movTypeInfo)},
     //Agregar atributo name
     //Hacer caso de edit
-
-
 ]
 const mainContainer = document.querySelector('body'); //trae a main desde el html
 
