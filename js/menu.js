@@ -1,16 +1,19 @@
 //Importar objs que van a ser ingresados dentro del dataset
 import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo} from './dataForm.js';
 
+/**Opciones del menu */
 const menuData = [
-    {title: "activos", idDrop : "menu-active" ,icon : "bx bxs-package", infoForm : JSON.stringify(activeInfo)},
-    {title: "tipo de activos", idDrop : "menu-active-type" ,icon : "bx bx-pin", infoForm : JSON.stringify(actTypeInfo)},
-    {title: "estados", idDrop : "menu-status" ,icon : "bx bx-error", infoForm : JSON.stringify(statusInfo)},
-    {title: "marcas", idDrop : "menu-brands" ,icon : "bx bxs-bar-chart-alt-2", infoForm : JSON.stringify(brandInfo)},
-    {title: "tipo de personas", idDrop : "menu-person-type" ,icon : "bx bxs-user-detail", infoForm : JSON.stringify(personTypeInfo)},
-    {title: "tipo movimiento del activo", idDrop : "menu-mov-active" ,icon : "bx bxs-component", infoForm : JSON.stringify(movTypeInfo)},
+    {title: "activos", idDrop : "menu-active" ,icon : "bx bxs-package", infoForm : JSON.stringify(activeInfo), url: "actives"},
+    {title: "tipo de activos", idDrop : "menu-active-type" ,icon : "bx bx-pin", infoForm : JSON.stringify(actTypeInfo), url: "typesActive"},
+    {title: "estados", idDrop : "menu-status" ,icon : "bx bx-error", infoForm : JSON.stringify(statusInfo), url : "states"},
+    {title: "marcas", idDrop : "menu-brands" ,icon : "bx bxs-bar-chart-alt-2", infoForm : JSON.stringify(brandInfo), url : "brands"},
+    {title: "tipo de personas", idDrop : "menu-person-type" ,icon : "bx bxs-user-detail", infoForm : JSON.stringify(personTypeInfo), url : "typesPerson"},
+    {title: "tipo movimiento del activo", idDrop : "menu-mov-active" ,icon : "bx bxs-component", infoForm : JSON.stringify(movTypeInfo), url : "typesMovActive"},
     //Agregar atributo name
     //Hacer caso de edit
 ]
+/*--- ceracion dinamica de la cabecera ---*/
+/*---- creacion de contenedores----*/
 const mainContainer = document.querySelector('body'); //trae a main desde el html
 
 // Crear el checkbox que va a usar css para implementar la logica del drop
@@ -37,11 +40,11 @@ menuData.forEach((element) =>{
             <p>${element.title}</p>
             <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
         </label>
-        <ul class="side-menu__dropdown" data-item="${element.title}" data-ref='${element.infoForm}' id="testing">
+        <ul class="side-menu__dropdown" data-url= "${element.url}" data-item="${element.title}" data-ref='${element.infoForm}' id="testing">
             <li class="dropdown__option"  data-type="add">Agregar</li>
             <li class="dropdown__option"  data-type="edit">Eliminar</li>
-            <li class="dropdown__option" data-type="add">Editar</li>
-            <li class="dropdown__option" data-type="add">Buscar</li>
+            <li class="dropdown__option" data-type="remove">Editar</li>
+            <li class="dropdown__option" data-type="search">Buscar</li>
         </ul>    
     `
     ul.appendChild(menuOption);

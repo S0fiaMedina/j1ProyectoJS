@@ -1,36 +1,38 @@
-//Importaciones
-import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo, phoneInfo } from './dataForm.js';
-
+//crear telefonos
+let count = 0;
 const mainContainer = document.querySelector('main');
+const buttonCrud = document.querySelectorAll('.dropdown__option');
 
-
-
-
-const testListener = document.querySelectorAll('.dropdown__option');
-testListener.forEach((element)=>{
+//Funcion que determina que ventanas mostrarse
+buttonCrud.forEach((element)=>{
     element.addEventListener('click', (e)=>{
         mainContainer.innerHTML = ``;
         const crudType = e.target.dataset.type; //accede al data-set que indica la opcion del crud
         const crudItem = e.target.parentNode.dataset.item; //accede al datase de ul que indica que opcion del menu se edita
         const crudRef = e.target.parentNode.dataset.ref; //accede al dataset de ul para referenciar sobre que obj de dataForm.js se va a iterar
-        console.log(typeof(crudType));
-        console.log(crudItem);
-        console.log(e.target.parentNode.dataset.ref);
+        const crudUrl = e.target.parentNode.dataset.url; //accede al dataset de ul para referenciar al endpoint al cual se debe acceder
+
+        console.log(crudUrl)
 
 
         switch(crudType){
             case 'add':
                 addForm(JSON.parse(crudRef), "Registro de " + crudItem, false)
                 break;
+            
+            default:
+                addSearchWindow(crudUrl, crudType);
+                break;
+            
+                //En edit se carga 
+
         }
     })
 })
 
 
-//crear telefonos
-let count = 0;
 // Renderizar formularios
-function addForm(newForm, title, isEdit){
+function addForm(newForm, title, disabled){
     
     //se crea el contenedor del fomulario y se pone en el main
     const container = document.createElement('section');
@@ -100,22 +102,94 @@ function addForm(newForm, title, isEdit){
                 form.appendChild(btnSubmit);
                 loadButton();
                 break;
+            //Para asignaciones y busqueda
         }
     
     })
 }
 
-function addSearchWindow(){
 
-}
-
+//FUNCION DE ESCUCHA para post (egistro de elementos)
 function loadButton(){
-    //FUNCION DE ESCUCHA
+    
     document.querySelector('.register__form--submit').addEventListener('click', (e)=>{
         e.preventDefault();
         console.log('...');
     })
 }
+// Funcion para mostrar ventana de busqueda
+function addSearchWindow(URL, action){
+
+    //Cabecera del search
+    const container = document.createElement('section');
+    container.classList.add('container-crud');
+
+    container.innerHTML = `
+    <div class="crud__search-bar">
+        <input class="crud__search__input" type="text" name="search" placeholder="Search...">
+        <button><i class='bx bx-search' ></i></button>
+    </div>
+    `
+    mainContainer.appendChild(container);
+
+    // FUNCION DE BUSQUEDA
+    container.querySelector('button').addEventListener('click', (event)=>{
+        event.preventDefault(); //Para que no se recargue la pagina
+        let inputUser = container.querySelector('input').value; // Valor del input del usuario 
+        console.log(`El usuario ha escrito ${inputUser} y se supone que va a la ruta ${URL} :p`);
+
+        /*
+
+        ...logica de busqueda para el backend...
+
+        */
+
+
+        //Solo se ejecuta si el usuario es encontrado
+        showResults(URL, inputUser, action);
+    })
+    
+}
+
+// Funcion para mostrar los resultados :D !
+function showResults(URL, id, action){
+    containerBody = document.createElement('section');
+    containerBody.classList.add('container-crud__body');
+    containerBody.innerHTML = ``;
+
+    // 
+    containerBody.innerHTML = `
+        <div class="crud__search-result">
+
+        <div class="search-result">
+            <h3 class="result-subtitle">Id</h3>
+            <p>IdPersona</p> 
+        </div>
+        <div class="search-result">
+            <h3 class="result-subtitle">Nombre</h3>
+            <p>nombrePersona</p>                      
+        </div>
+        <div class="search-result">
+            <h3 class="result-subtitle">Tipo de persona</h3>
+            <p>TipoPersona</p>                        
+        `;
+    
+    switch(action){
+        case 'edit':
+            break;
+        case 'remove':
+            break;
+        case 'search':
+            break;
+    }
+    //remove
+    //delete
+    //search
+
+}
+
+
+
 
 
 
