@@ -1,4 +1,7 @@
-export const activeInfo = [
+/*
+En este archivo se definen objetos exportados los cuales son recorridos para renderizar los inputs y los labels de cada tipo de formulario
+*/
+const activeInfo = [
     {
         value : ["active-code", "Codigo de la transaccion"], //Id que relaciona al input con el label y el texto
         typeInput : "number",
@@ -38,7 +41,7 @@ export const activeInfo = [
 ];
 
 /*--- informacion de persona ---*/
-export const personInfo = [
+const personInfo = [
     {
         value : ["person-identification", "Identificacion"],
         typeInput : "number"
@@ -55,10 +58,41 @@ export const personInfo = [
         value : ["person-type", "Tipo de persona"],
         typeInput : 'select'
     },
-    {
-        value : ["", ""]
-    }
-
 ];
 
+const brandInfo = [
+    {value : ["brand", "Nombre"], typeInput : 'text'},
+    {value : ["add-brand", "Nueva marca"], typeInput: 'submit'}
+];
 
+const personTypeInfo = [
+    {value : ["person-type", "Nombre"], typeInput : 'text'},
+    {value : ["add-person-type", "Nuevo tipo de persona"], typeInput: 'submit'}
+];
+const movTypeInfo = [
+    {value : ["movement-type", "Nombre"], typeInput : 'text'},
+    {value : ["add-movement-type", "Nuevo tipo de movimiento"], typeInput: 'submit'}
+];
+const actTypeInfo = [
+    {value : ["active-type", "Nombre"], typeInput : 'text'},
+    {value : ["add-active-type", "Nuevo tipo de activo"], typeInput: 'submit'}
+]
+const statusInfo = [
+    {value : ["status", "Nombre"], typeInput : 'text'},
+    {value : ["add-status", "Nuevo estado"], typeInput: 'submit'}
+]
+const phoneInfo = [
+    {value : ["phone-id", "Numero"], typeInput: 'number'},
+    {value : ["phone-location", "Numero"], typeInput: 'text'},
+    {value : ["add-phone", "Nuevo telefono"], typeInput: 'submit'}
+]
+export {
+    activeInfo,
+    personInfo,
+    brandInfo,
+    personTypeInfo,
+    movTypeInfo,
+    actTypeInfo,
+    statusInfo,
+    phoneInfo
+}

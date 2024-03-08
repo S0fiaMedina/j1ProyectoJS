@@ -10,7 +10,7 @@
     top: 110px;
 	left: 0;
     height: calc(100vh - 130px);
-	max-width: 260px;
+	max-width: 260px;   
 	width: 100%;
 	background: var(--light);
 	scrollbar-width: none;
@@ -37,6 +37,10 @@
 	border-radius: 10px;
 	margin: 4px 0;
     gap: 1rem;
+    cursor: pointer;
+}
+.dropdown__option:hover{
+    background-color: var(--light-green);
 }
 
 .side-menu__subtitle i{

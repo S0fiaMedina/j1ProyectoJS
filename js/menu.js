@@ -1,17 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" defer></script>
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'> 
-    <link rel="stylesheet" href="css/main.css">
-    <script defer src="js/add.js" type="module"></script>
-    <title>Document</title>
-</head>
-<body>
+//Importar objs que van a ser ingresados dentro del dataset
+import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo} from './dataForm.js';
+
+const menuData = [
+    {title: "activos", idDrop : "menu-active" ,icon : "bx bxs-package", infoForm : JSON.stringify(activeInfo)},
+    //Terminar de agregar menu
+    //Agregar atributo name
+    //Hacer caso de edit
+
+
+]
+const mainContainer = document.querySelector('body'); //trae a main desde el html
+
+// Crear el checkbox que va a usar css para implementar la logica del drop
+const checkboxMain = document.createElement('input');
+checkboxMain.type = 'checkbox';
+checkboxMain.id = 'drop-sidebar';
+mainContainer.append(checkboxMain);
+
+//Creacion del nav y el ul general que contendrá todas las opciones
+const nav = document.createElement('nav');
+nav.setAttribute('id', 'sidebar');
+mainContainer.appendChild(nav);
+const ul = document.createElement('ul');
+ul.setAttribute('class', 'side-menu');
+nav.appendChild(ul);
+
+//Construcccion del menu
+menuData.forEach((element) =>{
+    const menuOption = document.createElement('li');
+    menuOption.innerHTML = `
+        <input type="checkbox" id="${element.idDrop}">
+        <label class="side-menu__subtitle" for="${element.idDrop}">
+            <i class="${element.icon}" ></i> 
+            <p>${element.title}</p>
+            <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
+        </label>
+        <ul class="side-menu__dropdown" data-item="${element.title}" data-ref='${element.infoForm}' id="testing">
+            <li class="dropdown__option"  data-type="add">Agregar</li>
+            <li class="dropdown__option"  data-type="edit">Eliminar</li>
+            <li class="dropdown__option" data-type="add">Editar</li>
+            <li class="dropdown__option" data-type="add">Buscar</li>
+        </ul>    
+    `
+    ul.appendChild(menuOption);
+})
+mainContainer.append(nav);
+
+
+
+/*
     <!-- side bar-->
-    <input type="checkbox" id="drop-sidebar">
+    <input type="" id="drop-sidebar">
     <nav id="sidebar">
 		<ul class="side-menu">
 			<li>
@@ -28,7 +67,7 @@
 					<li class="dropdown__option"  data-type="add">Agregar</li>
 					<li class="dropdown__option"  data-type="edit">Eliminar</li>
 					<li class="dropdown__option" data-type="add">Editar</li>
-					<li > >Buscar</p></li>
+					<li class="dropdown__option" data-type="add">Buscar</p></li>
 				</ul>
 			</li>
 
@@ -160,20 +199,5 @@
 			</li>         
 	</nav>
 
-    <!-- header  -->
-    
-        <header>
-            
-            <img src="storage/img/campuslands.png" alt="logo-campuslands.png">
-            <h1>Sistema  de inventario</h1>  
-            <label for="drop-sidebar"><i class='bx bx-menu header__icon' ></i></label>
-        </header>
 
-        <main>
-
-        </main>
-
-   
-
-</body>
-</html>
+*/
