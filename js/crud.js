@@ -12,9 +12,6 @@ buttonCrud.forEach((element)=>{
         const crudRef = e.target.parentNode.dataset.ref; //accede al dataset de ul para referenciar sobre que obj de dataForm.js se va a iterar
         const crudUrl = e.target.parentNode.dataset.url; //accede al dataset de ul para referenciar al endpoint al cual se debe acceder
 
-        console.log(crudUrl)
-
-
         switch(crudType){
             case 'add':
                 addForm(JSON.parse(crudRef), "Registro de " + crudItem, false)
@@ -55,14 +52,12 @@ function addForm(newForm, title, disabled){
             //Rceibe numeros y texto
             case 'email':
             case 'text':
-            case 'number':
-                {
+            case 'number':{
                     const div = document.createElement('div');                     
                     div.innerHTML = `
                         <label for="${input.value[0]}">${input.value[1]}: </label>
                         <input class="input__form" type="${input.typeInput}" id="${input.value[0]}" name="${input.value[2]}" min="0">
                     `
-                   
                     //Agrega el id de phone
                     if (input.value[0].includes('phone') && isEdit ===true){
                         div.querySelector('label').for+= count;
@@ -70,10 +65,7 @@ function addForm(newForm, title, disabled){
                     }
                     count++;
                     //Hace que no se generen subformularios 
-                    
                         form.appendChild(div);
-                    
-
                 }
                 break;
             case 'select':
@@ -153,11 +145,11 @@ function addSearchWindow(URL, action){
 
 // Funcion para mostrar los resultados :D !
 function showResults(URL, id, action){
-    containerBody = document.createElement('section');
+    const containerBody = document.createElement('section');
     containerBody.classList.add('container-crud__body');
     containerBody.innerHTML = ``;
 
-    // 
+    //Se toma el objeto que se ha recibido como respuesta (exitosa) y se inserta en este div
     containerBody.innerHTML = `
         <div class="crud__search-result">
 
@@ -173,19 +165,25 @@ function showResults(URL, id, action){
             <h3 class="result-subtitle">Tipo de persona</h3>
             <p>TipoPersona</p>                        
         `;
-    
+    const btnCrud = document.createElement('button');
+    containerBody.querySelector('.crud__search-result').appendChild(btnCrud);
+
+
+    //El boton se cambia segun la ccion qu se esté haciendo
     switch(action){
         case 'edit':
+            btnCrud.innerHTML = `<i class='bx bxs-edit'></i>`;
+
             break;
         case 'remove':
+            btnCrud.innerHTML = `<i class='bx bxs-trash' ></i>`;
             break;
         case 'search':
+            btnCrud.innerHTML = `<i class='bx bx-detail'></i>`;
             break;
     }
-    //remove
-    //delete
-    //search
 
+    document.querySelector('.container-crud').appendChild(containerBody);   
 }
 
 
