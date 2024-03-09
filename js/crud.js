@@ -1,4 +1,35 @@
 import {activeInfo} from "./dataForm.js"
+
+async function getData(endPoint) {
+    try {
+        const response = await fetch(`http://localhost:3000/${endPoint}`,{
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(response => response.json())
+        return response;
+    } catch (error) {
+        return {}
+    }
+}
+
+async function postData(element, endPoint) {
+    try {
+        const response = await fetch(`http://localhost:3000/${endPoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(element)
+        });
+        return response;
+    }
+    catch (error) {
+        return {}
+    }
+}
+
 //crear telefonos
 let count = 0;
 const mainContainer = document.querySelector('main');
@@ -74,7 +105,7 @@ function addForm(newForm, title, action, isSearch = false, isEdit = false){
     form.appendChild(titleForm);
 
 
-    newForm.forEach((input)=>{
+    newForm.forEach(async (input)=>{
 
         switch (input.typeInput){
             //Rceibe numeros y texto
@@ -99,17 +130,38 @@ function addForm(newForm, title, action, isSearch = false, isEdit = false){
             case 'select':
                 {
                     const div = document.createElement('div');
-                    //Aqui se deberia llamar una función para poder traer todos los 
                     div.innerHTML = `
                     <label for="${input.value[0]}">${input.value[1]} </label>
-                    <select  id="${input.value[0]}" name="${input.value[2]}">
-                        <option value="${input.value[0]}-1">id1 - NombreCategoria1</option>
-                        <option value="${input.value[0]}-2">id2 - NombreCategoria2</option>
-                        <option value="${input.value[0]}-3">id3 - NombreCategoria3</option>
-                    </select> 
+                    <select id="${input.value[0]}" name="${input.value[2]}"></select> 
                     `
-                    isSearch ? div.querySelector('select').setAttribute('disabled', true) : '';
                     form.appendChild(div);
+                    let endPoint;
+                    switch (input.value[0]) {
+                        case "category-active":
+                            endPoint = "categories";
+                            break;
+                        case "active-type":
+                            endPoint = "typesActive";
+                            break;
+                        case "active-status":
+                            endPoint = "states";
+                            break;
+                        case "active-brand":
+                            endPoint = "brands";
+                            break;
+                        case "person-type":
+                            endPoint = "typesPerson";
+                            break;
+                        case "mov-act":
+                            endPoint = "typesMovActive";
+                            break;
+                    }
+                    const collection = await getData(endPoint);
+                    const select = document.querySelector(`#${input.value[0]}`);
+                    for (let item of collection) {
+                        select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
+                    }
+                    isSearch ? div.querySelector('select').setAttribute('disabled', true) : '';
                 }
                 break;
 
@@ -259,6 +311,7 @@ function postInfo(URL){
     document.querySelector('.add').addEventListener('click', (e)=>{
         const datos = Object.fromEntries(new FormData(e.target.form).entries()); //datos del formulario
         console.log(datos);
+        postData(datos, URL);
         e.preventDefault();
         console.log('Se oprimio un boton submit para hacer post en la url de ' + URL );
     })
