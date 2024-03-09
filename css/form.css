@@ -1,20 +1,61 @@
 @import url('variables.css');
 
 
-/*contenedor del formulario del registro*/
+/*contenedor del formulario del registro y dialog*/
+.container-form,
+.container-form__dialog{
+	border-radius: 1rem;
+	background: var(--light);
+	box-shadow: 4px 4px 16px rgba(0, 0, 0, .05);
+}
 .container-form{
     margin-top:20px;
     width: 100%;
     display: flex;
     justify-content: center;
-	border-radius: 1rem;
-	background: var(--light);
-	box-shadow: 4px 4px 16px rgba(0, 0, 0, .05);
 }
 
 
+/*--- dialog ---*/
+.container-form__dialog{
+    border: 1px solid var(--dark-blue);
+    position: fixed;
+    top: 5%;
+    left: 10%;
+    z-index:100;
+    width: 80%;
+    overflow-y: scroll;
+}
+/*--- boton para cerrar dialog ---*/
+#close__dialog i{
+    font-size: 25px;
+    
+}
+
+#close__dialog{
+    position: absolute;
+    padding: .2rem;
+    right: 1rem;
+    top: .3rem;
+    background-color: var(--grey);
+    color: var(--dark-grey);
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+#close__dialog:hover{
+    background-color: var(--dark-grey);
+    color: var(--grey);
+    transform: scale(1.1);
+}
+
 /*Estilos generales del formulario y subformulario*/
 .register__form{
+    width: 70%; /*!!!*/
+    overflow-y: scroll;
+    height: 100%;
+    scrollbar-width: none;
     display:flex;
     justify-content: center;
     flex-direction: column;
@@ -23,12 +64,7 @@
 }
 
 /*estilos generales del formulario*/
-.register__form{
-    width: 70%; /*!!!*/
-    overflow-y: scroll;
-    height: 100%;
-    scrollbar-width: none;
-}
+
 
 .register__form::-webkit-scrollbar {
 	display: none;
@@ -102,6 +138,9 @@ input:focus{
 @media (max-width: 550px){
     .container-form{
         width: 90vw;
+    }
+    .form__dialog{
+        width: 100%;
     }
 }
 @media(max-width: 400px){

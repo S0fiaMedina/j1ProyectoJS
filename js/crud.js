@@ -1,3 +1,4 @@
+import {activeInfo} from "./dataForm.js"
 //crear telefonos
 let count = 0;
 const mainContainer = document.querySelector('main');
@@ -14,11 +15,15 @@ buttonCrud.forEach((element)=>{
 
         switch(crudType){
             case 'add':
-                addForm(JSON.parse(crudRef), "Registro de " + crudItem, false)
+                addForm(JSON.parse(crudRef), "Registro de " + crudItem, crudType);
+                postInfo(crudUrl);
                 break;
-            
+            case 'return':
+                addSearchWindow(crudUrl, crudType, e.target.parentNode.dataset.refmov, crudItem);
+                break;
             default:
-                addSearchWindow(crudUrl, crudType);
+                addSearchWindow('movements', crudType, crudRef, 'movimiento');
+                
                 break;
             
                 //En edit se carga 
@@ -29,16 +34,38 @@ buttonCrud.forEach((element)=>{
 
 
 // Renderizar formularios
-function addForm(newForm, title, disabled){
-    
-    //se crea el contenedor del fomulario y se pone en el main
-    const container = document.createElement('section');
-    container.classList.add('container-form');
-    mainContainer.appendChild(container);
+function addForm(newForm, title, action, isSearch = false, isEdit = false){
+    console.log(isSearch);
 
-    //Se crea la etiqueta de formulario y se adjunta al contenedor
+    //Se crea formulario 
     const form = document.createElement('form');
-    form.classList.add('register__form');
+    let container;
+    if (isSearch === true){
+        newForm.pop();
+        console.log
+        container = document.createElement('dialog');
+        container.classList.add('container-form__dialog');
+        document.querySelector('body').appendChild(container);
+        form.classList.add('register__form');
+
+        //Agregar boton
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = `<i class='bx bx-x'></i>`;
+        closeBtn.setAttribute('id', 'close__dialog')
+        container.appendChild(closeBtn);
+
+        closeBtn.addEventListener('click', ()=>{
+            container.close();
+        })
+
+        container.showModal();
+    } else {
+        container = document.createElement('section');
+        container.classList.add('container-form');
+        mainContainer.appendChild(container);
+        form.classList.add('register__form');
+    }
+
     container.appendChild(form);
 
     //creacion del titulo de formulario
@@ -48,69 +75,60 @@ function addForm(newForm, title, disabled){
 
 
     newForm.forEach((input)=>{
+
         switch (input.typeInput){
             //Rceibe numeros y texto
             case 'email':
             case 'text':
-            case 'number':{
+            case 'number':
+            case 'textarea':
+            case 'date':{
                     const div = document.createElement('div');                     
                     div.innerHTML = `
                         <label for="${input.value[0]}">${input.value[1]}: </label>
                         <input class="input__form" type="${input.typeInput}" id="${input.value[0]}" name="${input.value[2]}" min="0">
                     `
-                    //Agrega el id de phone
-                    if (input.value[0].includes('phone') && isEdit ===true){
-                        div.querySelector('label').for+= count;
-                        div.querySelector('input').id+= count;
-                    }
-                    count++;
-                    //Hace que no se generen subformularios 
-                        form.appendChild(div);
+                    isSearch ? div.querySelector('.input__form').setAttribute('disabled', true) : '';
+                    input.typeInput === 'textarea' ? div.querySelector('.input__form').style.resize = 'none' : '';
+                    form.appendChild(div);
+                    //Si isUpdating = True, o sea que estamos en modo actualizar es necesario cambiar el value por el input.value[2] del obj, ya que este coincide con la llave para acceder al valor en la base de datos
+                    // isEdit ? div.querySelector('.input__form').textContent = objetoRecibido[input.value[2]] : ''
+
                 }
                 break;
             case 'select':
                 {
                     const div = document.createElement('div');
+                    //Aqui se deberia llamar una función para poder traer todos los 
                     div.innerHTML = `
                     <label for="${input.value[0]}">${input.value[1]} </label>
-                    <select  id="${input.value[0]}">
+                    <select  id="${input.value[0]}" name="${input.value[2]}">
                         <option value="${input.value[0]}-1">id1 - NombreCategoria1</option>
                         <option value="${input.value[0]}-2">id2 - NombreCategoria2</option>
                         <option value="${input.value[0]}-3">id3 - NombreCategoria3</option>
                     </select> 
                     `
+                    isSearch ? div.querySelector('select').setAttribute('disabled', true) : '';
                     form.appendChild(div);
                 }
                 break;
 
             case 'submit':
                 const btnSubmit = document.createElement('button');
-                btnSubmit.classList.add('register__form--submit'); //Clase de los botones (addEventLister)
+                btnSubmit.classList.add('register__form--submit', action); //Clase de los botones (addEventLister)
                 btnSubmit.setAttribute('id', input.value[0]);
                 btnSubmit.setAttribute('name', input.value[2]);
-
-                
-                btnSubmit.textContent = input.value[1];
+                isEdit ?  btnSubmit.textContent = 'Actualizar': btnSubmit.textContent = input.value[1]
                 form.appendChild(btnSubmit);
-                loadButton();
+                
                 break;
-            //Para asignaciones y busqueda
         }
     
     })
 }
 
-
-//FUNCION DE ESCUCHA para post (egistro de elementos)
-function loadButton(){
-    
-    document.querySelector('.register__form--submit').addEventListener('click', (e)=>{
-        e.preventDefault();
-        console.log('...');
-    })
-}
 // Funcion para mostrar ventana de busqueda
-function addSearchWindow(URL, action){
+function addSearchWindow(URL, action, ref, item){
 
     //Cabecera del search
     const container = document.createElement('section');
@@ -129,27 +147,32 @@ function addSearchWindow(URL, action){
         event.preventDefault(); //Para que no se recargue la pagina
         let inputUser = container.querySelector('input').value; // Valor del input del usuario 
         console.log(`El usuario ha escrito ${inputUser} y se supone que va a la ruta ${URL} :p`);
+        /*solicita los datos*/
+        getInfo(event, URL, inputUser);
 
-        /*
+        if  (action == 'return'){
+            console.log(ref);
+            addForm(JSON.parse(ref), "creacion de  " + item, 'add', false, true);
+        } 
+        if (action  == 'edit'){
+            addForm(JSON.parse(ref), "Actualizar informacion de " + item, 'edit', false, true);
+            putInfo(URL);     
+    
+        } else{
+            showResults(URL, inputUser, action, ref, item);
+        }
 
-        ...logica de busqueda para el backend...
-
-        */
-
-
-        //Solo se ejecuta si el usuario es encontrado
-        showResults(URL, inputUser, action);
     })
     
 }
-
 // Funcion para mostrar los resultados :D !
-function showResults(URL, id, action){
+function showResults(URL, inputUser, action, ref, item){
     const containerBody = document.createElement('section');
     containerBody.classList.add('container-crud__body');
     containerBody.innerHTML = ``;
 
-    //Se toma el objeto que se ha recibido como respuesta (exitosa) y se inserta en este div
+
+
     containerBody.innerHTML = `
         <div class="crud__search-result">
 
@@ -165,26 +188,101 @@ function showResults(URL, id, action){
             <h3 class="result-subtitle">Tipo de persona</h3>
             <p>TipoPersona</p>                        
         `;
+    
     const btnCrud = document.createElement('button');
     containerBody.querySelector('.crud__search-result').appendChild(btnCrud);
 
 
-    //El boton se cambia segun la ccion qu se esté haciendo
+    //El boton se cambia segun la ccion qu se esté haciendo, a cada addEventListener hay
     switch(action){
-        case 'edit':
-            btnCrud.innerHTML = `<i class='bx bxs-edit'></i>`;
-
-            break;
         case 'remove':
             btnCrud.innerHTML = `<i class='bx bxs-trash' ></i>`;
+            btnCrud.addEventListener('click', (e) => {
+                deleteInfo(e, URL, inputUser)
+            })
             break;
         case 'search':
             btnCrud.innerHTML = `<i class='bx bx-detail'></i>`;
+            btnCrud.addEventListener('click', (e) => {
+                console.log(ref);
+                addForm(JSON.parse(ref), "Informacion de "+ item, 'search', true);
+            })
             break;
+        case 'operations':
+            btnCrud.innerHTML = `<i class='bx bx-detail'></i>`;
+            btnCrud.addEventListener('click', (e) => {
+                console.log(activeInfo);
+                addForm(activeInfo, "Informacion del activo", 'search', true);
+                loadAssignationButtons();
+            })
+            break;
+
     }
 
     document.querySelector('.container-crud').appendChild(containerBody);   
 }
+
+
+function loadAssignationButtons(){
+    const form = document.querySelector('.register__form');
+    form.innerHTML += `
+    <button class="register__form--submit" id="return-active">Retornar activo</button>
+    <button class="register__form--submit" id="quit-active">Dar de baja</button>
+    <button class="register__form--submit" id="send-active">Enviar a garantía</button>
+    `
+    /*Aqui las urls, las puedes colocar manualmente :)*/
+    
+    /*RETORNAR ACTIVO*/
+    document.querySelector('#return-active').addEventListener('click', (e)=>{
+        e.preventDefault();
+        console.log("Retorna");
+    })
+
+
+    /*DAR DE BAJA*/
+    document.querySelector('#quit-active').addEventListener('click', (e)=>{
+        e.preventDefault();
+        console.log("Da de baja");
+    })
+
+
+    /*ENVIAR A GARANTIA*/
+    document.querySelector('#send-active').addEventListener('click', (e)=>{
+        e.preventDefault();
+        console.log("Envia a garaantia");
+    })
+}
+
+
+//funcion para implementar la logica del put (actualizar elementos)
+function postInfo(URL){
+    document.querySelector('.add').addEventListener('click', (e)=>{
+        const datos = Object.fromEntries(new FormData(e.target.form).entries()); //datos del formulario
+        console.log(datos);
+        e.preventDefault();
+        console.log('Se oprimio un boton submit para hacer post en la url de ' + URL );
+    })
+}
+
+//Funcion para implementar la logica del post (registrar elementos)
+function putInfo( url, inputUser){
+    document.querySelector('.edit').addEventListener('click', (e)=>{
+        const datos = Object.fromEntries(new FormData(e.target.form).entries());
+        e.preventDefault();
+        console.log(datos)
+        console.log('Se oprimio un boton para hacer PUT en la url de ' + url );
+    })
+}
+//Funcion para implementar la logica del delete (eliminar elementos)
+function deleteInfo(event, url, inputUser){
+    event.preventDefault();
+    console.log('Se oprimió un boton para hacer DELETE en la URL de '+ url+ ' id:' +inputUser);
+}
+function getInfo(event, url, inputUser){
+    event.preventDefault();
+    console.log('Se oprimió un boton para hacer buscar informacion en la URL de '+ url+ ' id:' +inputUser);
+}
+
 
 
 

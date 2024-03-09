@@ -58,6 +58,11 @@ const personInfo = [
         value : ["person-type", "Tipo de persona"],
         typeInput : 'select'
     },
+    {
+        value : ["person-phone", "Telefono"],
+        typeInput : 'number'
+    },
+    {value : ["add-person", "Nueva persona", "persons"], typeInput: 'submit'}
 ];
 
 const brandInfo = [
@@ -82,9 +87,24 @@ const statusInfo = [
     {value : ["add-status", "Nuevo estado", "states"], typeInput: 'submit'}
 ]
 const phoneInfo = [
-    {value : ["phone-id", "Numero"], typeInput: 'number'},
+    {value : ["phone-number", "Numero"], typeInput: 'number'},
     {value : ["phone-location", "Numero"], typeInput: 'text'},
     {value : ["add-phone", "Nuevo telefono"], typeInput: 'submit'}
+]
+const movInfo = [
+    {value : ["date-mov", "Fecha"], typeInput: 'date'},
+    {value : ["mov-act","Id del activo"], typeInput : 'select'},
+    {value : ["mov-comment","comentario"], typeInput : 'textarea'},
+    {value : ["mov-responsible", "Id de la persona rsponsable"], typeInput: 'number'},
+    {value : ["add-mov", "agregar movimiento"], typeInput: 'submit'}
+
+]
+
+const asignationInfo = [
+    {value : ["asignation-date", "Fecha", "asignationDate"], typeInput: 'date'},
+    {value : ["asignation-res","Responsable", "asignationResposible"], typeInput : 'select'},
+    {value : ["add-asignation", "Nueva asignacion"], typeInput: 'submit'}
+
 ]
 export {
     activeInfo,
@@ -94,5 +114,7 @@ export {
     movTypeInfo,
     actTypeInfo,
     statusInfo,
-    phoneInfo
+    phoneInfo,
+    movInfo,
+    asignationInfo
 }

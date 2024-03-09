@@ -1,5 +1,5 @@
 //Importar objs que van a ser ingresados dentro del dataset
-import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo} from './dataForm.js';
+import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo, asignationInfo, movInfo} from './dataForm.js';
 
 /**Opciones del menu */
 const menuData = [
@@ -9,8 +9,9 @@ const menuData = [
     {title: "marcas", idDrop : "menu-brands" ,icon : "bx bxs-bar-chart-alt-2", infoForm : JSON.stringify(brandInfo), url : "brands"},
     {title: "tipo de personas", idDrop : "menu-person-type" ,icon : "bx bxs-user-detail", infoForm : JSON.stringify(personTypeInfo), url : "typesPerson"},
     {title: "tipo movimiento del activo", idDrop : "menu-mov-active" ,icon : "bx bxs-component", infoForm : JSON.stringify(movTypeInfo), url : "typesMovActive"},
-    //Agregar atributo name
-    //Hacer caso de edit
+    {title: "persona", idDrop : "menu-person" ,icon : "bx bxs-user", infoForm : JSON.stringify(personInfo), url : "persons"},
+    {title: "asignaciones", idDrop : "menu-asignations" ,icon : "bx bxs-plus-square", infoForm : [JSON.stringify(asignationInfo), JSON.stringify(movInfo)], url : "asignations"},
+
 ]
 /*--- ceracion dinamica de la cabecera ---*/
 /*---- creacion de contenedores----*/
@@ -40,169 +41,29 @@ menuData.forEach((element) =>{
             <p>${element.title}</p>
             <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
         </label>
+           
+    `
+    if (element.title === 'asignaciones'){
+        menuOption.innerHTML += `
+        <ul class="side-menu__dropdown" data-url= "${element.url}" data-item="${element.title}" data-ref='${element.infoForm[0]}' data-refmov ='${element.infoForm[1]}' id="testing">
+            <li class="dropdown__option"  data-type="add">Agregar</li>
+            <li class="dropdown__option"  data-type="return">Asignar activo</li>
+            <li class="dropdown__option"  data-type="operations">Asignar activo</li>
+        </ul> 
+        `
+
+    }else{
+        menuOption.innerHTML += `
         <ul class="side-menu__dropdown" data-url= "${element.url}" data-item="${element.title}" data-ref='${element.infoForm}' id="testing">
             <li class="dropdown__option"  data-type="add">Agregar</li>
             <li class="dropdown__option"  data-type="remove">Eliminar</li>
             <li class="dropdown__option" data-type="edit">Editar</li>
             <li class="dropdown__option" data-type="search">Buscar</li>
-        </ul>    
-    `
+        </ul> 
+        `
+    }
     ul.appendChild(menuOption);
+
 })
 mainContainer.append(nav);
 
-
-
-/*
-    <!-- side bar-->
-    <input type="" id="drop-sidebar">
-    <nav id="sidebar">
-		<ul class="side-menu">
-			<li>
-                <!-- Activos -->
-                <input type="checkbox" id="menu-activo">
-                <label class="side-menu__subtitle" for="menu-activo">
-                    <i class='bx bxs-package' ></i> 
-                    <p> Activos</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown" data-item="activo" data-ref="activeInfo" id="testing">
-					<li class="dropdown__option"  data-type="add">Agregar</li>
-					<li class="dropdown__option"  data-type="edit">Eliminar</li>
-					<li class="dropdown__option" data-type="add">Editar</li>
-					<li class="dropdown__option" data-type="add">Buscar</p></li>
-				</ul>
-			</li>
-
-
-            <li>
-                <!-- Tipo activo -->
-                <input type="checkbox" id="menu-active-type">
-                <label class="side-menu__subtitle" for="menu-active--type">
-                    <i class='bx bx-pin' ></i>
-                    <p> Tipo activo</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"data-type="create-active-type">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__op  tion">Buscar</a></li>
-				</ul>
-			</li>
-
-            <li>
-                <!-- estados -->
-                <input type="checkbox" id="menu-status">
-                <label class="side-menu__subtitle" for="menu-status">
-                    <i class='bx bx-error' ></i> 
-                    <p> Estados</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__option">Buscar</a></li>
-				</ul>
-			</li>
-
-            <li>
-                <!-- marcas -->
-                <input type="checkbox" id="menu-marcas">
-                <label class="side-menu__subtitle" for="menu-marcas">
-                    <i class='bx bxs-bar-chart-alt-2'></i>
-                    <p> Marcas</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__option">Buscar</a></li>
-				</ul>
-			</li>
-
-            <li>
-                <!-- Personas -->
-                <input type="checkbox" id="menu-person">
-                <label class="side-menu__subtitle" for="menu-person">
-                    <i class='bx bxs-user'></i>
-                    <p>personas</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__option">Buscar</a></li>
-				</ul>
-			</li>
-
-
-            <li>
-                <!-- Tipo personas -->
-                <input type="checkbox" id="menu-person-type">
-                <label class="side-menu__subtitle" for="menu-person-type">
-                    <i class='bx bxs-user-detail' ></i>
-                    <p> Tipo personas</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__option">Buscar</a></li>
-				</ul>
-			</li>
-
-            <li>
-                <!-- Tipo movimiento del activo -->
-                <input type="checkbox" id="menu-mov-activo">
-                <label class="side-menu__subtitle" for="menu-mov-activo">
-                    <i class='bx bxs-component'></i>
-                    <p> Tipo de movimiento del activo</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Agregar</a></li>
-					<li><a class="dropdown__option">Eliminar</a></li>
-					<li><a class="dropdown__option">Editar</a></li>
-					<li><a class="dropdown__option">Buscar</a></li>
-				</ul>
-			</li>
-
-            <li>
-                <!-- Asignacion -->
-                <input type="checkbox" id="menu-asignacion">
-                <label class="side-menu__subtitle" for="menu-asignacion">
-                    <i class='bx bxs-share-alt'></i>
-                    <p> Asignacion</p>
-                    <i class='bx bx-chevron-right icon-right side-menu__arrow' ></i>
-                </label>
-
-                <!-- dropdown-->
-				<ul class="side-menu__dropdown">
-					<li><a class="dropdown__option"href="#">Crear</a></li>
-					<li><a class="dropdown__option">Asignar activos</a></li>
-					<li><a class="dropdown__option">Retornar activos</a></li>
-				</ul>
-			</li>         
-	</nav>
-
-
-*/
