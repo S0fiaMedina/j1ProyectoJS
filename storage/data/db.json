@@ -1,22 +1,9 @@
 {
-  "actives": [
-    {
-      "code": "260909",
-      "name": "Activotest",
-      "serialNumber": "213123",
-      "unitaryPrice": "123213",
-      "id": 1
-    }
-  ],
+  "actives": [],
   "typesActive": [],
   "categories": [],
   "states": [],
-  "brands": [
-    {
-      "name": "sofia",
-      "id": 1
-    }
-  ],
+  "brands": [],
   "persons": [],
   "typesPerson": [],
   "typesMovActive": []
