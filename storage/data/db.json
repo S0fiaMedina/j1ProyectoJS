@@ -1,10 +1,79 @@
 {
   "actives": [],
-  "typesActive": [],
-  "categories": [],
-  "states": [],
-  "brands": [],
+  "typesActive": [
+    {
+      "name": "Monitor",
+      "id": 1
+    },
+    {
+      "name": "CPU",
+      "id": 2
+    },
+    {
+      "name": "Teclado",
+      "id": 3
+    }
+  ],
+  "categories": [
+    {
+      "name": "Equipo de Cómputo",
+      "id": 1
+    },
+    {
+      "name": "Electrodomestico",
+      "id": 2
+    },
+    {
+      "name": "Juego",
+      "id": 3
+    }
+  ],
+  "states": [
+    {
+      "name": "Asignado",
+      "id": 1
+    },
+    {
+      "name": "No Asignado",
+      "id": 2
+    }
+  ],
+  "brands": [
+    {
+      "name": "LG",
+      "id": 1
+    },
+    {
+      "name": "COMPUMAX",
+      "id": 2 
+    }
+  ],
   "persons": [],
-  "typesPerson": [],
-  "typesMovActive": []
+  "typesPerson": [
+    {
+      "name": "Natural",
+      "id": 1
+    },
+    {
+      "name": "Juridica",
+      "id": 2
+    }
+  ],
+  "typesMovActive": [],
+  "providers": [
+    {
+      "name": "LG",
+      "id": 1
+    },
+    {
+      "name": "COMPUMAX",
+      "id": 2 
+    }
+  ],
+  "responsibles": [
+    {
+      "id": 1,
+      "name": "CampusLands"
+    }
+  ]
 }
