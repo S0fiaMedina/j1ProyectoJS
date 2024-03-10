@@ -11,7 +11,12 @@
   "typesActive": [],
   "categories": [],
   "states": [],
-  "brands": [],
+  "brands": [
+    {
+      "name": "sofia",
+      "id": 1
+    }
+  ],
   "persons": [],
   "typesPerson": [],
   "typesMovActive": []

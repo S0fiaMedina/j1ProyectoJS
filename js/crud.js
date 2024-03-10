@@ -90,14 +90,36 @@ function addForm(newForm,action, container, aditionalAtributte, endpoint){
                 div.innerHTML = `
                 <label for="${input.value[0]}">${input.value[1]} </label>
                 <select  id="${input.value[0]}" name="${input.value[2]}" ${aditionalAtributte}></select> 
-                `
-                const collection = await getData(endpoint);
+                `;
+                form.appendChild(div);
+                let endpointForn;
+                switch (input.value[0]) {
+                    case "category-active":
+                        endpointForn = "categories";
+                        break;
+                    case "active-type":
+                        endpointForn = "typesActive";
+                        break;
+                    case "active-status":
+                        endpointForn = "states";
+                        break;
+                    case "active-brand":
+                        endpointForn = "brands";
+                        break;
+                    case "person-type":
+                        endpointForn = "typesPerson";
+                        break;
+                    case "mov-act":
+                        endpointForn = "typesMovActive";
+                        break;
+                }
+                const collection = await getData(endpointForn);
                     const select = document.querySelector(`#${input.value[0]}`);
                     for (let item of collection) {
                         select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
                 }
 
-                form.appendChild(div);
+                
             }
             break;
 
