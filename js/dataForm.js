@@ -95,7 +95,7 @@ const movInfo = [
     {value : ["date-mov", "Fecha"], typeInput: 'date'},
     {value : ["mov-act","Id del activo"], typeInput : 'select'},
     {value : ["mov-comment","comentario"], typeInput : 'textarea'},
-    {value : ["mov-responsible", "Id de la persona rsponsable"], typeInput: 'number'},
+    {value : ["mov-responsible", "Id de la persona responsable"], typeInput: 'number'},
     {value : ["add-mov", "agregar movimiento"], typeInput: 'submit'}
 
 ]

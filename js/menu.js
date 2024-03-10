@@ -47,8 +47,8 @@ menuData.forEach((element) =>{
         menuOption.innerHTML += `
         <ul class="side-menu__dropdown" data-url= "${element.url}" data-item="${element.title}" data-ref='${element.infoForm[0]}' data-refmov ='${element.infoForm[1]}' id="testing">
             <li class="dropdown__option"  data-type="add">Agregar</li>
-            <li class="dropdown__option"  data-type="return">Asignar activo</li>
-            <li class="dropdown__option"  data-type="operations">Asignar activo</li>
+            <li class="dropdown__option"  data-type="return">Retornar activo activo</li>
+            <li class="dropdown__option"  data-type="asignation-active">Asignar activo</li>
         </ul> 
         `
 

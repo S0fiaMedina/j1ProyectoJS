@@ -1,5 +1,13 @@
 {
-  "actives": [],
+  "actives": [
+    {
+      "code": "260909",
+      "name": "Activotest",
+      "serialNumber": "213123",
+      "unitaryPrice": "123213",
+      "id": 1
+    }
+  ],
   "typesActive": [],
   "categories": [],
   "states": [],
