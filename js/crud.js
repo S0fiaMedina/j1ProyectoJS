@@ -123,6 +123,7 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                 const collection = await getData(endpointForm);
                 const select = document.querySelector(`#${input.value[0]}`);
                 select.innerHTML = ``;
+                select.innerHTML = `<option value="0">Seleccione una opcion...</option>`
                 for (let item of collection) {
                     select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`;
                     // console.log(item.id)
@@ -281,6 +282,7 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
                 if (URL == "actives") {
                     const currentStatus = await getDataId('states', searchResult.activeStatus);
                     btnCrud.addEventListener('click', (e) => {
+                        e.preventDefault();
                         if (currentStatus.name != 'De Baja') {
                             alert('El activo debe estar dado de baja para eliminarse');
                         } else {
@@ -288,15 +290,21 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
                         }
                     })
                 }
-                if (URL == "persons") {
+                else if (URL == "persons") {
                     const tels = await getData('telephones');
                     btnCrud.addEventListener('click', (e) => {
+                        e.preventDefault();
                         deleteInfo(e, URL, inputUser);
                         for (let tel of tels) {
                             if (tel.phoneOwner == searchResult.id) {
                                 deleteData('telephones', tel.id);
                             }
                         }
+                    })
+                } else {
+                    btnCrud.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        deleteInfo(e, URL, inputUser);
                     })
                 }
                 break;
@@ -385,10 +393,10 @@ function postInfo(URL){
 async function putInfo(url, inputUser){
     const info = await getDataId(url, inputUser);
     document.querySelector('.edit').addEventListener('click', (e)=>{
+        e.preventDefault();
         const datos = Object.fromEntries(new FormData(e.target.form).entries());
         datos.activeStatus = info.activeStatus;
         updateData(url, inputUser, datos);
-        e.preventDefault();
         console.log(datos)
         console.log('Se oprimio un boton para hacer PUT en la url de ' + url );
     })
@@ -417,8 +425,8 @@ function getInfo(event, url, inputUser){
 function checkForm(data){
     const values = Object.values(data); 
     for (let value of values) {
-        console.log(`values es ${value} - ${value.trim() === ''}`);
-        if (value.trim() === ''){
+        // console.log(`values es ${value} - ${value.trim() === ''}`);
+        if (value.trim() === '' || value == "0"){
             return false;
         }
     }
