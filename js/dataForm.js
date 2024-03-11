@@ -34,10 +34,10 @@ const activeInfo = [
         value : ["active-type", "Tipo del activo", "activeType"], 
         typeInput : "select",
     },
-    {
-        value : ["active-status", "Estado del activo", "activeStatus"], 
-        typeInput : "select",
-    },
+    // {
+        // value : ["active-status", "Estado del activo", "activeStatus"], 
+        // typeInput : "select",
+    // },
     {
         value : ["active-brand", "Marca del activo", "activeBrand"], 
         typeInput : "select",
@@ -70,10 +70,6 @@ const personInfo = [
         value : ["person-type", "Tipo de persona", "personType"],
         typeInput : 'select'
     },
-    {
-        value : ["person-phone", "Telefono", "personNumber"],
-        typeInput : 'number'
-    },
     {value : ["add-person", "Nueva persona", "persons"], typeInput: 'submit'}
 ];
 
@@ -103,9 +99,10 @@ const statusInfo = [
 ];
 
 const phoneInfo = [
-    {value : ["phone-number", "Numero"], typeInput: 'number'},
-    {value : ["phone-location", "Numero"], typeInput: 'text'},
-    {value : ["add-phone", "Nuevo telefono"], typeInput: 'submit'}
+    {value : ["phone-number", "Numero", "number"], typeInput: 'number'},
+    {value : ["phone-location", "Ubicacion", "location"], typeInput: 'text'},
+    {value : ["phone-person", "Dueño del telefono", "phoneOwner"], typeInput: 'select'},
+    {value : ["add-phone", "Nuevo telefono", "telephones"], typeInput: 'submit'}
 ];
 
 const movInfo = [
