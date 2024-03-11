@@ -116,12 +116,17 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                     case "active-responsible":
                         endpointForm = "responsibles";
                         break;
+                    case "phone-person":
+                        endpointForm = "persons";
+                        break;
                 }
                 const collection = await getData(endpointForm);
                 const select = document.querySelector(`#${input.value[0]}`);
                 select.innerHTML = ``;
                 for (let item of collection) {
-                    select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
+                    select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`;
+                    // console.log(item.id)
+                    // console.log(collection)
                 }
                 if (action == 'edit'){
                     //EDITAR
@@ -143,6 +148,7 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                     }
                     selection.value = collectionS[input.value[2]];
                 }
+                // console.log(typeof(select.value));
             }
             break;
 
@@ -230,13 +236,30 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
         <div class="search-result">
             <h3 class="result-subtitle">Id</h3>
             <p>${searchResult.id}</p> 
-        </div>
-        <div class="search-result">
-            <h3 class="result-subtitle">Nombre</h3>
-            <p>${searchResult.name}</p>                      
-        </div>                   
+        </div>                  
         `;
         const containerResult = document.querySelector('.crud__search-result');
+        if (searchResult.name != undefined) {
+            containerResult.innerHTML += `
+            <div class="search-result">
+                <h3 class="result-subtitle">Nombre</h3>
+                <p>${searchResult.name}</p>                      
+            </div> 
+            `;
+        }
+        if (URL == "telephones") {
+            const telephone = await getDataId(URL, searchResult.id);
+            containerResult.innerHTML += `
+            <div class="search-result">
+                <h3 class="result-subtitle">Numero</h3>
+                <p>${telephone.number}</p>
+            </div>
+            <div class="search-result">
+                <h3 class="result-subtitle">Ubicacion</h3>
+                <p>${telephone.location}</p>
+            </div> 
+            `;
+        }
         if (URL == "persons") {
             const typePerson = await getDataId(`typesPerson`, searchResult.personType);
             containerResult.innerHTML += `
@@ -255,9 +278,27 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
         switch(action){
             case 'remove':
                 btnCrud.innerHTML = `<i class='bx bxs-trash' ></i>`;
-                btnCrud.addEventListener('click', (e) => {
-                    deleteInfo(e, URL, inputUser)
-                })
+                if (URL == "actives") {
+                    const currentStatus = await getDataId('states', searchResult.activeStatus);
+                    btnCrud.addEventListener('click', (e) => {
+                        if (currentStatus.name != 'De Baja') {
+                            alert('El activo debe estar dado de baja para eliminarse');
+                        } else {
+                            deleteInfo(e, URL, inputUser);
+                        }
+                    })
+                }
+                if (URL == "persons") {
+                    const tels = await getData('telephones');
+                    btnCrud.addEventListener('click', (e) => {
+                        deleteInfo(e, URL, inputUser);
+                        for (let tel of tels) {
+                            if (tel.phoneOwner == searchResult.id) {
+                                deleteData('telephones', tel.id);
+                            }
+                        }
+                    })
+                }
                 break;
             case 'search':
             case 'return':
@@ -327,21 +368,25 @@ function postInfo(URL){
     document.querySelector('.add').addEventListener('click', (e)=>{
         e.preventDefault();
         const datos = Object.fromEntries(new FormData(e.target.form).entries()); //datos del formulario
-        console.log(datos);
-        console.log(typeof(datos));
+        if (URL == 'actives') {
+            datos.activeStatus = '1';
+        }
         if (checkForm(datos) == false){
             alert('Debe llenar todos los campos');
-            
         } else{
             postData(datos, URL);
         }
+        // console.log(datos);
+        // console.log(typeof(datos));
     })
 }
 
 //Funcion para implementar la logica del post (registrar elementos)
-function putInfo(url, inputUser){
+async function putInfo(url, inputUser){
+    const info = await getDataId(url, inputUser);
     document.querySelector('.edit').addEventListener('click', (e)=>{
         const datos = Object.fromEntries(new FormData(e.target.form).entries());
+        datos.activeStatus = info.activeStatus;
         updateData(url, inputUser, datos);
         e.preventDefault();
         console.log(datos)
@@ -372,6 +417,7 @@ function getInfo(event, url, inputUser){
 function checkForm(data){
     const values = Object.values(data); 
     for (let value of values) {
+        console.log(`values es ${value} - ${value.trim() === ''}`);
         if (value.trim() === ''){
             return false;
         }
