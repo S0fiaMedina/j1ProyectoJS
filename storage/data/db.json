@@ -30,12 +30,16 @@
   ],
   "states": [
     {
-      "name": "Asignado",
+      "name": "No Asignado",
       "id": 1
     },
     {
-      "name": "No Asignado",
+      "name": "Asignado",
       "id": 2
+    },
+    {
+      "name": "De Baja",
+      "id": 3
     }
   ],
   "brands": [
@@ -46,6 +50,14 @@
     {
       "name": "COMPUMAX",
       "id": 2
+    },
+    {
+      "name": "LOGITECH",
+      "id": 3
+    },
+    {
+      "name": "BENQ",
+      "id": 4
     }
   ],
   "persons": [],
@@ -75,5 +87,6 @@
       "id": 1,
       "name": "CampusLands"
     }
-  ]
+  ],
+  "telephones": []
 }
