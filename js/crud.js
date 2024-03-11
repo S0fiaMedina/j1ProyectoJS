@@ -1,5 +1,5 @@
 import {activeInfo} from "./dataForm.js";
-import { getData, postData } from "./api.js";
+import { getData, postData, getDataId, deleteData, updateData } from "./api.js";
 //crear telefonos
 let count = 0;
 const mainContainer = document.querySelector('main');
@@ -7,7 +7,7 @@ const buttonCrud = document.querySelectorAll('.dropdown__option');
 
 //Funcion principal :)
 buttonCrud.forEach((element)=>{
-    element.addEventListener('click', (e)=>{
+    element.addEventListener('click', async (e)=>{
         mainContainer.innerHTML = ``;
         const crudType = e.target.dataset.type; //accede al data-set que indica la opcion del crud
         const crudItem = e.target.parentNode.dataset.item; //accede al datase de ul que indica que opcion del menu se edita
@@ -20,14 +20,13 @@ buttonCrud.forEach((element)=>{
                 /*contiene la conf del section que va a contener el fomrulario*/
                 initialSettings = ['main', 'section', 'container-form', 'register__form', `Registro de ${crudItem}`];
                 container = newContainer(initialSettings, 'form');
-                addForm(JSON.parse(crudRef),crudType, container, "required=true", crudUrl );
+                addForm(JSON.parse(crudRef),crudType, container, "required=true", crudUrl);
                 postInfo(crudUrl);
                 break;
             case 'asignation-active':
             case 'return':
                 if (crudType == 'return') initialSettings = ['main', 'section', 'container-crud', 'register__form', `registro de ${crudItem}`];
                 else initialSettings = ['main', 'section', 'container-crud', 'register__form', `registro de movimientos`];
-        
                 container = newContainer(initialSettings, 'searchContainer');
                 search(crudUrl, crudType, e.target.parentNode.dataset.refmov, crudItem, container);
                 break;
@@ -35,7 +34,6 @@ buttonCrud.forEach((element)=>{
                 initialSettings = ['main', 'section', 'container-crud', 'register__form', `registro de ${crudItem}`];
                 container = newContainer(initialSettings, 'searchContainer');
                 search(crudUrl, crudType, crudRef, crudItem, container);
-                
                 break;
             
                 //En edit se carga 
@@ -51,7 +49,7 @@ function newContainer(settings, action){
     document.querySelector(tagGlobalContainer).appendChild(container);
     switch (action){
         case 'form': /*si se va a renderizar un form*/
-            container.innerHTML = /*HTML*/`<form class="${classForm}" id="myForm"><h2>${title}</h2></form>`;
+            container.innerHTML = /*HTML*/`<form class="${classForm}" id="myForm" autocomplete="off"><h2>${title}</h2></form>`;
             break;
         case 'searchContainer': /*si se va a renderizar un contenedor de busqueda*/
             container.innerHTML = /*HTML*/`
@@ -78,10 +76,10 @@ function newContainer(settings, action){
 }
 
 // Renderizar formularios
-function addForm(newForm,action, container, aditionalAtributte, endpoint){
+async function addForm(newForm, action, container, aditionalAtributte, endpoint, id){
     /*recorre el obj que representa lo que va adentro del array*/
     newForm.forEach( async (input)=>{
-        console.log(endpoint);
+        // console.log(endpoint);
         const form = container.querySelector('form'); 
         switch (input.typeInput){
             case 'select':{
@@ -89,37 +87,62 @@ function addForm(newForm,action, container, aditionalAtributte, endpoint){
                 //Aqui se deberia llamar una función para poder traer todos los 
                 div.innerHTML = `
                 <label for="${input.value[0]}">${input.value[1]} </label>
-                <select  id="${input.value[0]}" name="${input.value[2]}" ${aditionalAtributte}></select> 
+                <select id="${input.value[0]}" name="${input.value[2]}" ${aditionalAtributte}></select> 
                 `;
                 form.appendChild(div);
-                let endpointForn;
+                let endpointForm;
                 switch (input.value[0]) {
                     case "category-active":
-                        endpointForn = "categories";
+                        endpointForm = "categories";
                         break;
                     case "active-type":
-                        endpointForn = "typesActive";
+                        endpointForm = "typesActive";
                         break;
                     case "active-status":
-                        endpointForn = "states";
+                        endpointForm = "states";
                         break;
                     case "active-brand":
-                        endpointForn = "brands";
+                        endpointForm = "brands";
                         break;
                     case "person-type":
-                        endpointForn = "typesPerson";
+                        endpointForm = "typesPerson";
                         break;
                     case "mov-act":
-                        endpointForn = "typesMovActive";
+                        endpointForm = "typesMovActive";
+                        break;
+                    case "provider-active":
+                        endpointForm = "providers";
+                        break;
+                    case "active-responsible":
+                        endpointForm = "responsibles";
                         break;
                 }
-                const collection = await getData(endpointForn);
-                    const select = document.querySelector(`#${input.value[0]}`);
-                    for (let item of collection) {
-                        select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
+                const collection = await getData(endpointForm);
+                const select = document.querySelector(`#${input.value[0]}`);
+                select.innerHTML = ``;
+                for (let item of collection) {
+                    select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
                 }
-
-                
+                if (action == 'edit'){
+                    //EDITAR
+                    const collectionS = await getData(`${endpoint}/${id}`);
+                    const selection = div.querySelector(`select[name="${input.value[2]}"]`);
+                    selection.innerHTML = ``;
+                    for (let item of collection) {
+                        selection.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
+                    }
+                    selection.value = collectionS[input.value[2]];
+                    // console.log(collection[input.value[2]])
+                    // div.querySelector('input').value = collection[input.value[2]];
+                } else if (action == 'search') {
+                    const collectionS = await getData(`${endpoint}/${id}`);
+                    const selection = div.querySelector(`select[name="${input.value[2]}"]`);
+                    selection.innerHTML = ``;
+                    for (let item of collection) {
+                        selection.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
+                    }
+                    selection.value = collectionS[input.value[2]];
+                }
             }
             break;
 
@@ -142,14 +165,18 @@ function addForm(newForm,action, container, aditionalAtributte, endpoint){
                 form.appendChild(div);
                 if (action == 'edit'){
                     //EDITAR
-                    const collection = await getData(`${endpoint}/${1}` );
-                        console.log(collection[input.value[2]])
-                        div.querySelector('input').textContent = collection[input.value[2]];
-
+                    const collection = await getData(`${endpoint}/${id}`);
+                    div.querySelector(`input[name="${input.value[2]}"]`).value = collection[input.value[2]];
+                    // console.log(collection[input.value[2]])
+                    // div.querySelector('input').value = collection[input.value[2]];
+                }
+                else if (action == 'search') {
+                    const collection = await getData(`${endpoint}/${id}`);
+                    div.querySelector(`input[name="${input.value[2]}"]`).value = collection[input.value[2]];
                 }
                 //Si isUpdating = True, o sea que estamos en modo actualizar es necesario cambiar el value por el input.value[2] del obj, ya que este coincide con la llave para acceder al valor en la base de datos
                 // isEdit ? div.querySelector('.input__form').textContent = objetoRecibido[input.value[2]] : ''
-                }
+            }
             break;
         }
     
@@ -161,93 +188,105 @@ function search(URL, action, ref, item, container){
     const containerBody = document.createElement('section');
     document.querySelector('.container-crud').appendChild(containerBody);
 
-    container.querySelector('button').addEventListener('click', (event)=>{
+    container.querySelector('button').addEventListener('click', async (event)=>{
         containerBody.innerHTML = ``
         event.preventDefault(); //Para que no se recargue la pagina
         let inputUser = container.querySelector('input').value; // Valor del input del usuario 
         console.log(`El usuario ha escrito ${inputUser} y se supone que va a la ruta ${URL} :p`);
         
-        
-        
-        
         /*solicita los datos*/
         const dataFound = getInfo(event, URL, inputUser); 
         /*lo siguiente solo se ejecuta si se encuentra la data*/
-        if (action  == 'edit'){
-            const initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Actualizar ${item}`];
-            const container = newContainer(initialSettings, 'form');
-            addForm(JSON.parse(ref),'edit', container, "required=true", URL );
-            putInfo(URL);     
-        } else{
-
-            
-            showResults(URL, inputUser, action, ref, item, containerBody);
-
+        if (inputUser == "") {
+            alert('Ingrese un ID para buscar');
+        } else {
+            if (action  == 'edit'){
+                const searchResult = await getDataId(URL, inputUser);
+                if (Object.keys(searchResult).length === 0) {
+                    containerBody.innerHTML += `<p>No se encontró</p`
+                } else {
+                    const initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Actualizar ${item}`];
+                    const container = newContainer(initialSettings, 'form');
+                    addForm(JSON.parse(ref),'edit', container, "required=true", URL, inputUser);
+                    putInfo(URL, inputUser);
+                }
+            } else{
+                showResults(URL, inputUser, action, ref, item, containerBody);
+            }
         }
-
     })
     
 }
 // Funcion para mostrar los resultados :D !
-function showResults(URL, inputUser, action, ref, item, containerBody){
+async function showResults(URL, inputUser, action, ref, item, containerBody){
     containerBody.classList.add('container-crud__body');
-    containerBody.innerHTML += `
+    const searchResult = await getDataId(URL, inputUser);
+    if (Object.keys(searchResult).length === 0) {
+        containerBody.innerHTML += `<p>No se encontró</p`
+    }
+    else {
+        containerBody.innerHTML += `
         <div class="crud__search-result">
-
         <div class="search-result">
             <h3 class="result-subtitle">Id</h3>
-            <p>IdPersona</p> 
+            <p>${searchResult.id}</p> 
         </div>
         <div class="search-result">
             <h3 class="result-subtitle">Nombre</h3>
-            <p>nombrePersona</p>                      
-        </div>
-        <div class="search-result">
-            <h3 class="result-subtitle">Tipo de persona</h3>
-            <p>TipoPersona</p>
-        </div>                    
+            <p>${searchResult.name}</p>                      
+        </div>                   
         `;
+        const containerResult = document.querySelector('.crud__search-result');
+        if (URL == "persons") {
+            const typePerson = await getDataId(`typesPerson`, searchResult.personType);
+            containerResult.innerHTML += `
+            <div class="search-result">
+                <h3 class="result-subtitle">Tipo de persona</h3>
+                <p>${typePerson.name}</p>
+            </div> 
+            `;
+        }
     
-    const btnCrud = document.createElement('button');
-    containerBody.querySelector('.crud__search-result').appendChild(btnCrud);
-    //El boton se cambia segun la ccion qu se esté haciendo, a cada addEventListener hay
-    let initialSettings;
-    switch(action){
-        case 'remove':
-            btnCrud.innerHTML = `<i class='bx bxs-trash' ></i>`;
-            btnCrud.addEventListener('click', (e) => {
-                deleteInfo(e, URL, inputUser)
-            })
-            break;
+        const btnCrud = document.createElement('button');
+        containerBody.querySelector('.crud__search-result').appendChild(btnCrud);
 
-        case 'search':
-        case 'return':
-            btnCrud.innerHTML = `<i class='bx bx-detail'></i>`;
-            btnCrud.addEventListener('click', (e) => {
-                let refData = JSON.parse(ref);
-                refData.pop();
-                if (action == 'search'){
-                    initialSettings = ['body', 'dialog', 'container-form__dialog', 'register__form', `Informacion`];
-                    const container = newContainer(initialSettings, 'dialog');
-                    addForm(refData,action, container, "disabled=true", URL );
-                } else{
-                    initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Informacion`];
-                    containerBody.innerHTML = ``
-                    const container = newContainer(initialSettings, 'form');
-                    addForm(refData,action, container, "disabled=true", URL );
-                    loadAssignationButtons(container);
-                }
-            })
-        case 'asignation-active':
-            initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Informacion`];
-            containerBody.innerHTML = ``
-            const container = newContainer(initialSettings, 'form');
-            addForm(JSON.parse(ref),action, container, "disabled=true", URL );
-            break;
-
-    }   
+        //El boton se cambia segun la accion qu se esté haciendo, a cada addEventListener hay
+        let initialSettings;
+        switch(action){
+            case 'remove':
+                btnCrud.innerHTML = `<i class='bx bxs-trash' ></i>`;
+                btnCrud.addEventListener('click', (e) => {
+                    deleteInfo(e, URL, inputUser)
+                })
+                break;
+            case 'search':
+            case 'return':
+                btnCrud.innerHTML = `<i class='bx bx-detail'></i>`;
+                btnCrud.addEventListener('click', async (e) => {
+                    let refData = JSON.parse(ref);
+                    refData.pop();
+                    if (action == 'search'){
+                        initialSettings = ['body', 'dialog', 'container-form__dialog', 'register__form', `Informacion`];
+                        const container = newContainer(initialSettings, 'dialog');
+                        addForm(refData, action, container, "disabled=true", URL, inputUser);
+                    } else {
+                        initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Informacion`];
+                        containerBody.innerHTML = ``
+                        const container = newContainer(initialSettings, 'form');
+                        addForm(refData, action, container, "disabled=true", URL, inputUser);
+                        loadAssignationButtons(container);
+                    }
+                });
+                break;
+            case 'asignation-active':
+                initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Informacion`];
+                containerBody.innerHTML = ``
+                const container = newContainer(initialSettings, 'form');
+                addForm(JSON.parse(ref),action, container, "disabled=true", URL, inputUser);
+                break;
+        } 
+    }  
 }
-
 
 function loadAssignationButtons(container){
     const form = container.querySelector('.register__form');
@@ -286,17 +325,24 @@ function loadAssignationButtons(container){
 //funcion para implementar la logica del put (actualizar elementos)
 function postInfo(URL){
     document.querySelector('.add').addEventListener('click', (e)=>{
-        const datos = Object.fromEntries(new FormData(e.target.form).entries()); //datos del formulario
         e.preventDefault();
-        postData(datos, URL);
-        
+        const datos = Object.fromEntries(new FormData(e.target.form).entries()); //datos del formulario
+        console.log(datos);
+        console.log(typeof(datos));
+        if (checkForm(datos) == false){
+            alert('Debe llenar todos los campos');
+            
+        } else{
+            postData(datos, URL);
+        }
     })
 }
 
 //Funcion para implementar la logica del post (registrar elementos)
-function putInfo( url, inputUser){
+function putInfo(url, inputUser){
     document.querySelector('.edit').addEventListener('click', (e)=>{
         const datos = Object.fromEntries(new FormData(e.target.form).entries());
+        updateData(url, inputUser, datos);
         e.preventDefault();
         console.log(datos)
         console.log('Se oprimio un boton para hacer PUT en la url de ' + url );
@@ -304,10 +350,12 @@ function putInfo( url, inputUser){
 }
 //Funcion para implementar la logica del delete (eliminar elementos)
 function deleteInfo(event, url, inputUser){
+    deleteData(url, inputUser);
     event.preventDefault();
     console.log('Se oprimió un boton para hacer DELETE en la URL de '+ url+ ' id:' +inputUser);
 }
 function getInfo(event, url, inputUser){
+    getDataId(url, inputUser);
     event.preventDefault();
     console.log('Se oprimió un boton para hacer buscar informacion en la URL de '+ url+ ' id:' +inputUser);
     /*
@@ -318,4 +366,15 @@ function getInfo(event, url, inputUser){
     
     se retorna el objeto
     */
+}
+
+//VERIFICA QUE LOS DATOS QUE SE ENVIEN NO ESTEN VACIOS
+function checkForm(data){
+    const values = Object.values(data); 
+    for (let value of values) {
+        if (value.trim() === ''){
+            return false;
+        }
+    }
+    return true;
 }
