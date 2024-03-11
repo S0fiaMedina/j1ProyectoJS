@@ -43,7 +43,7 @@ menuData.forEach((element) =>{
         </label>
            
     `
-    if (element.title === 'asignaciones'){
+    if (element.title === 'Asignaciones'){
         menuOption.innerHTML += `
         <ul class="side-menu__dropdown" data-url= "${element.url}" data-item="${element.title}" data-ref='${element.infoForm[0]}' data-refmov ='${element.infoForm[1]}' id="testing">
             <li class="dropdown__option"  data-type="add">Agregar</li>
