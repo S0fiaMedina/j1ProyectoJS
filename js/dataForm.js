@@ -7,6 +7,10 @@ const activeInfo = [
         typeInput : "number",
     },
     {
+        value : ["active-form", "Numero de formulario", "formNumber"], //Id que relaciona al input con el label y el texto
+        typeInput : "text",
+    },
+    {
         value : ["active-name", "Nombre del activo", "name"], //Id que relaciona al input con el label y el texto
         typeInput : "text",
     },
@@ -17,6 +21,10 @@ const activeInfo = [
     {
         value : ["active-value", "Valor Unitario", "unitaryPrice"], //Id que relaciona al input con el label y el texto
         typeInput : "number",
+    },
+    {
+        value : ["provider-active", "Proveedor", "activeProvider"], 
+        typeInput : "select",
     },
     {
         value : ["category-active", "Categoria del activo", "activeCategory"], 
@@ -35,6 +43,10 @@ const activeInfo = [
         typeInput : "select",
     },
     {
+        value : ["active-responsible", "Responsable del activo", "activeResponsible"], 
+        typeInput : "select",
+    },
+    {
         value: ["add-active-id", "registrar Activo", "actives"],
         typeInput : "submit",
     }
@@ -43,23 +55,23 @@ const activeInfo = [
 /*--- informacion de persona ---*/
 const personInfo = [
     {
-        value : ["person-identification", "Identificacion"],
+        value : ["person-identification", "Identificacion", "identificationNumber"],
         typeInput : "number"
     },
     {
-        value : ["person-name", "Nombre"],
+        value : ["person-name", "Nombre", "name"],
         typeInput : "text"
     },
     {
-        value : ["person-email", "Email"],
+        value : ["person-email", "Email", "email"],
         typeInput : 'email'
     },
     {
-        value : ["person-type", "Tipo de persona"],
+        value : ["person-type", "Tipo de persona", "personType"],
         typeInput : 'select'
     },
     {
-        value : ["person-phone", "Telefono"],
+        value : ["person-phone", "Telefono", "personNumber"],
         typeInput : 'number'
     },
     {value : ["add-person", "Nueva persona", "persons"], typeInput: 'submit'}
@@ -74,38 +86,43 @@ const personTypeInfo = [
     {value : ["person-type", "Nombre", "name"], typeInput : 'text'},
     {value : ["add-person-type", "Nuevo tipo de persona", "typesPerson"], typeInput: 'submit'}
 ];
+
 const movTypeInfo = [
     {value : ["movement-type", "Nombre","name"], typeInput : 'text'},
     {value : ["add-movement-type", "Nuevo tipo de movimiento", "typesMovActive"], typeInput: 'submit'}
 ];
+
 const actTypeInfo = [
     {value : ["active-type", "Nombre", "name"], typeInput : 'text'},
     {value : ["add-active-type", "Nuevo tipo de activo", "typesActive"], typeInput: 'submit'}
-]
+];
+
 const statusInfo = [
     {value : ["status", "Nombre", "name"], typeInput : 'text'},
     {value : ["add-status", "Nuevo estado", "states"], typeInput: 'submit'}
-]
+];
+
 const phoneInfo = [
     {value : ["phone-number", "Numero"], typeInput: 'number'},
     {value : ["phone-location", "Numero"], typeInput: 'text'},
     {value : ["add-phone", "Nuevo telefono"], typeInput: 'submit'}
-]
+];
+
 const movInfo = [
     {value : ["date-mov", "Fecha"], typeInput: 'date'},
     {value : ["mov-act","Id del activo"], typeInput : 'select'},
     {value : ["mov-comment","comentario"], typeInput : 'textarea'},
     {value : ["mov-responsible", "Id de la persona responsable"], typeInput: 'number'},
     {value : ["add-mov", "agregar movimiento"], typeInput: 'submit'}
-
-]
+];
 
 const asignationInfo = [
     {value : ["asignation-date", "Fecha", "asignationDate"], typeInput: 'date'},
     {value : ["asignation-res","Responsable", "asignationResposible"], typeInput : 'select'},
     {value : ["add-asignation", "Nueva asignacion"], typeInput: 'submit'}
 
-]
+];
+
 export {
     activeInfo,
     personInfo,
