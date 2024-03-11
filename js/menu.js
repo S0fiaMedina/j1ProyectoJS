@@ -1,17 +1,17 @@
 //Importar objs que van a ser ingresados dentro del dataset
-import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo, asignationInfo, movInfo} from './dataForm.js';
+import { activeInfo, personInfo, brandInfo, personTypeInfo, movTypeInfo, actTypeInfo, statusInfo, asignationInfo, movInfo, phoneInfo} from './dataForm.js';
 
 /**Opciones del menu */
 const menuData = [
-    {title: "activos", idDrop : "menu-active" ,icon : "bx bxs-package", infoForm : JSON.stringify(activeInfo), url: "actives"},
-    {title: "tipo de activos", idDrop : "menu-active-type" ,icon : "bx bx-pin", infoForm : JSON.stringify(actTypeInfo), url: "typesActive"},
-    {title: "estados", idDrop : "menu-status" ,icon : "bx bx-error", infoForm : JSON.stringify(statusInfo), url : "states"},
-    {title: "marcas", idDrop : "menu-brands" ,icon : "bx bxs-bar-chart-alt-2", infoForm : JSON.stringify(brandInfo), url : "brands"},
-    {title: "tipo de personas", idDrop : "menu-person-type" ,icon : "bx bxs-user-detail", infoForm : JSON.stringify(personTypeInfo), url : "typesPerson"},
-    {title: "tipo movimiento del activo", idDrop : "menu-mov-active" ,icon : "bx bxs-component", infoForm : JSON.stringify(movTypeInfo), url : "typesMovActive"},
-    {title: "persona", idDrop : "menu-person" ,icon : "bx bxs-user", infoForm : JSON.stringify(personInfo), url : "persons"},
-    {title: "asignaciones", idDrop : "menu-asignations" ,icon : "bx bxs-plus-square", infoForm : [JSON.stringify(asignationInfo), JSON.stringify(movInfo)], url : "asignations"},
-
+    {title: "Activos", idDrop : "menu-active" ,icon : "bx bxs-package", infoForm : JSON.stringify(activeInfo), url: "actives"},
+    {title: "Tipo de activos", idDrop : "menu-active-type" ,icon : "bx bx-pin", infoForm : JSON.stringify(actTypeInfo), url: "typesActive"},
+    {title: "Tipo movimiento del activo", idDrop : "menu-mov-active" ,icon : "bx bxs-component", infoForm : JSON.stringify(movTypeInfo), url : "typesMovActive"},
+    {title: "Estados", idDrop : "menu-status" ,icon : "bx bx-error", infoForm : JSON.stringify(statusInfo), url : "states"},
+    {title: "Marcas", idDrop : "menu-brands" ,icon : "bx bxs-bar-chart-alt-2", infoForm : JSON.stringify(brandInfo), url : "brands"},
+    {title: "Personas", idDrop : "menu-person" ,icon : "bx bxs-user", infoForm : JSON.stringify(personInfo), url : "persons"},
+    {title: "Tipo de personas", idDrop : "menu-person-type" ,icon : "bx bxs-user-detail", infoForm : JSON.stringify(personTypeInfo), url : "typesPerson"},
+    {title: "Teléfonos", idDrop : "menu-telephones" ,icon : "bx bxs-phone", infoForm : JSON.stringify(phoneInfo), url : "telephones"},
+    {title: "Asignaciones", idDrop : "menu-asignations" ,icon : "bx bxs-plus-square", infoForm : [JSON.stringify(asignationInfo), JSON.stringify(movInfo)], url : "asignations"},
 ]
 /*--- ceracion dinamica de la cabecera ---*/
 /*---- creacion de contenedores----*/
