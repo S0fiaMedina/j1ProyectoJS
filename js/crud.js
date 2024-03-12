@@ -1,7 +1,5 @@
-import {activeInfo} from "./dataForm.js";
 import { getData, postData, getDataId, deleteData, updateData } from "./api.js";
 
-let count = 0;
 const mainContainer = document.querySelector('main');
 const buttonCrud = document.querySelectorAll('.dropdown__option');
 
@@ -11,10 +9,10 @@ const buttonCrud = document.querySelectorAll('.dropdown__option');
 buttonCrud.forEach((element)=>{
     element.addEventListener('click', async (e)=>{
         mainContainer.innerHTML = ``;
-        const crudType = e.target.dataset.type; //accede al data-set que indica la opcion del crud
-        const crudItem = e.target.parentNode.dataset.item; //accede al datase de ul que indica que opcion del menu se edita
-        const crudRef = e.target.parentNode.dataset.ref; //accede al dataset de ul para referenciar sobre que obj de dataForm.js se va a iterar
-        const crudUrl = e.target.parentNode.dataset.url; //accede al dataset de ul para referenciar al endpoint al cual se debe acceder
+        const crudType = e.target.dataset.type; // accede al data-set que indica la opcion del crud
+        const crudItem = e.target.parentNode.dataset.item; // accede al datase de ul que indica que opcion del menu se edita
+        const crudRef = e.target.parentNode.dataset.ref; // accede al dataset de ul para referenciar sobre que obj de dataForm.js se va a iterar
+        const crudUrl = e.target.parentNode.dataset.url; // accede al dataset de ul para referenciar al endpoint al cual se debe acceder
         let initialSettings;
         let container;
         switch(crudType){
@@ -37,7 +35,6 @@ buttonCrud.forEach((element)=>{
                 container = newContainer(initialSettings, 'searchContainer');
                 search(crudUrl, crudType, crudRef, crudItem, container);
                 break;
-                //En edit se carga 
         }
     })
 })
@@ -177,8 +174,6 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                     const collection = await getData(`${endpoint}/${id}`);
                     div.querySelector(`input[name="${input.value[2]}"]`).value = collection[input.value[2]];
                 }
-                //Si isUpdating = True, o sea que estamos en modo actualizar es necesario cambiar el value por el input.value[2] del obj, ya que este coincide con la llave para acceder al valor en la base de datos
-                // isEdit ? div.querySelector('.input__form').textContent = objetoRecibido[input.value[2]] : ''
             }
             break;
         }
@@ -192,11 +187,8 @@ function search(URL, action, ref, item, container){
     document.querySelector('.container-crud').appendChild(containerBody);
     container.querySelector('button').addEventListener('click', async (event)=>{
         containerBody.innerHTML = ``
-        event.preventDefault(); //Para que no se recargue la pagina (NI SIRVE)
+        event.preventDefault();
         let inputUser = container.querySelector('input').value; // Valor del input del usuario 
-        /* Solicita los datos */
-        // const dataFound = getInfo(event, URL, inputUser); 
-        /* Lo siguiente solo se ejecuta si se encuentra la data */
         if (inputUser == "") { 
             alert('Ingrese un ID para buscar');
         } else {
@@ -267,7 +259,7 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
     
         const btnCrud = document.createElement('button');
         containerBody.querySelector('.crud__search-result').appendChild(btnCrud);
-        //El boton se cambia segun la accion que se esté haciendo, a cada addEventListener hay
+        // El boton se cambia segun la accion que se esté haciendo, a cada addEventListener hay
         let initialSettings;
         switch(action){
             case 'remove':
@@ -451,26 +443,20 @@ function loadAssignationButtons(container){
     </div>
 
     `
-    /*Aqui las urls, las puedes colocar manualmente :)*/
     
     /*RETORNAR ACTIVO*/
     document.querySelector('#return-active').addEventListener('click', (e)=>{
         e.preventDefault();
-        // console.log("Retorna");
     })
-
 
     /*DAR DE BAJA*/
     document.querySelector('#quit-active').addEventListener('click', (e)=>{
         e.preventDefault();
-        // console.log("Da de baja");
     })
-
 
     /*ENVIAR A GARANTIA*/
     document.querySelector('#send-active').addEventListener('click', (e)=>{
         e.preventDefault();
-        // console.log("Envia a garaantia");
     })
 };
 
@@ -489,8 +475,6 @@ function postInfo(URL){
         } else{
             postData(datos, URL);
         }
-        // console.log(datos);
-        // console.log(typeof(datos));
     })
 };
 
@@ -508,8 +492,6 @@ async function putInfo(url, inputUser){
         } else{
             updateData(url, inputUser, datos);
         }
-        // console.log(datos)
-        // console.log('Se oprimio un boton para hacer PUT en la url de ' + url );
     })
 };
 
@@ -517,20 +499,10 @@ async function putInfo(url, inputUser){
 function deleteInfo(event, url, inputUser){
     deleteData(url, inputUser);
     event.preventDefault();
-    // console.log('Se oprimió un boton para hacer DELETE en la URL de '+ url+ ' id:' +inputUser);
 };
 
 // Funcion para implementar la logica del GET (leer elementos)
 function getInfo(event, url, inputUser){
     getDataId(url, inputUser);
     event.preventDefault();
-    // console.log('Se oprimió un boton para hacer buscar informacion en la URL de '+ url+ ' id:' +inputUser);
-    /*
-    Si la accion es 'asign', se debe conseguir una LISTA de los activos del usuario
-
-
-    Sino, entonces se debe conseguir cualquiera que sea el elemento que se nos este solicitando
-    
-    se retorna el objeto
-    */
 };
