@@ -1,11 +1,13 @@
 import {activeInfo} from "./dataForm.js";
 import { getData, postData, getDataId, deleteData, updateData } from "./api.js";
-//crear telefonos
+
 let count = 0;
 const mainContainer = document.querySelector('main');
 const buttonCrud = document.querySelectorAll('.dropdown__option');
 
-//Funcion principal :)
+/* -----------------------------------MANEJO DEL CRUD--------------------------------------- */
+
+// Funcion principal
 buttonCrud.forEach((element)=>{
     element.addEventListener('click', async (e)=>{
         mainContainer.innerHTML = ``;
@@ -17,7 +19,7 @@ buttonCrud.forEach((element)=>{
         let container;
         switch(crudType){
             case 'add':
-                /*contiene la conf del section que va a contener el fomrulario*/
+                /* Contiene la conf del section que va a contener el formulario */
                 initialSettings = ['main', 'section', 'container-form', 'register__form', `Registro de ${crudItem}`];
                 container = newContainer(initialSettings, 'form');
                 addForm(JSON.parse(crudRef),crudType, container, "required=true", crudUrl);
@@ -35,12 +37,11 @@ buttonCrud.forEach((element)=>{
                 container = newContainer(initialSettings, 'searchContainer');
                 search(crudUrl, crudType, crudRef, crudItem, container);
                 break;
-            
                 //En edit se carga 
-
         }
     })
 })
+
 /*Esta funcion genera el contenido del container que NO sea de los formularios*/
 function newContainer(settings, action){
     const [tagGlobalContainer, tagContainer, classContainer, classForm, title] = settings; /**desestructuracion */
@@ -48,49 +49,45 @@ function newContainer(settings, action){
     container.classList.add(classContainer);
     document.querySelector(tagGlobalContainer).appendChild(container);
     switch (action){
-        case 'form': /*si se va a renderizar un form*/
+        case 'form': /* Si se va a renderizar un form */
             container.innerHTML = /*HTML*/`<form class="${classForm}" id="myForm" autocomplete="off"><h2>${title}</h2></form>`;
             break;
-        case 'searchContainer': /*si se va a renderizar un contenedor de busqueda*/
+        case 'searchContainer': /* Si se va a renderizar un contenedor de busqueda */
             container.innerHTML = /*HTML*/`
             <div class="crud__search-bar">
                 <input class="crud__search__input" type="text" name="search" placeholder="Search...">
                 <button><i class='bx bx-search' ></i></button>
             </div>
             `;
-            console.log(container.innerHTML);
             break;
-        case 'dialog': /*si se va a renderizar un dialog*/
-
+        case 'dialog': /* Si se va a renderizar un dialog */
             container.innerHTML = /*HTML*/`
             <button id="close__dialog"><i class='bx bx-x'></i></button>
             <form class="${classForm}" id="myForm"><h2>${title}</h2></form>
             `;
-            
             container.showModal();
             container.querySelector('#close__dialog').addEventListener('click', ()=> {container.close()});
             break;
     }
-    
     return container;
-}
+};
 
 // Renderizar formularios
 async function addForm(newForm, action, container, aditionalAtributte, endpoint, id){
-    /*recorre el obj que representa lo que va adentro del array*/
+    /* Recorre el obj que representa lo que va adentro del array */
     newForm.forEach( async (input)=>{
-        // console.log(endpoint);
         const form = container.querySelector('form'); 
-        switch (input.typeInput){
+        switch (input.typeInput) {
+            /* Maneja los select */
             case 'select':{
                 const div = document.createElement('div');
-                //Aqui se deberia llamar una función para poder traer todos los 
                 div.innerHTML = `
                 <label for="${input.value[0]}">${input.value[1]} </label>
                 <select id="${input.value[0]}" name="${input.value[2]}" ${aditionalAtributte}></select> 
                 `;
                 form.appendChild(div);
                 let endpointForm;
+                /* Dependiendo del valor del dataForm, se asigna el valor del endpoint para hacer la búsqueda */
                 switch (input.value[0]) {
                     case "category-active":
                         endpointForm = "categories";
@@ -120,17 +117,17 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                         endpointForm = "persons";
                         break;
                 }
+                /* Llena los select con los valores correspondientes extraídos de la base de datos */
                 const collection = await getData(endpointForm);
                 const select = document.querySelector(`#${input.value[0]}`);
                 select.innerHTML = ``;
                 select.innerHTML = `<option value="0">Seleccione una opcion...</option>`
                 for (let item of collection) {
                     select.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`;
-                    // console.log(item.id)
-                    // console.log(collection)
                 }
                 if (action == 'edit'){
-                    //EDITAR
+                    // EDITAR
+                    /* Llena los select con los valores correspondientes extraídos de la base de datos */
                     const collectionS = await getData(`${endpoint}/${id}`);
                     const selection = div.querySelector(`select[name="${input.value[2]}"]`);
                     selection.innerHTML = ``;
@@ -138,9 +135,9 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                         selection.innerHTML += `<option value="${item.id}">${item.id} - ${item.name}</option>`
                     }
                     selection.value = collectionS[input.value[2]];
-                    // console.log(collection[input.value[2]])
-                    // div.querySelector('input').value = collection[input.value[2]];
                 } else if (action == 'search') {
+                    // BUSCAR
+                    /* Llena los select con los valores correspondientes extraídos de la base de datos */
                     const collectionS = await getData(`${endpoint}/${id}`);
                     const selection = div.querySelector(`select[name="${input.value[2]}"]`);
                     selection.innerHTML = ``;
@@ -149,10 +146,8 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                     }
                     selection.value = collectionS[input.value[2]];
                 }
-                // console.log(typeof(select.value));
             }
             break;
-
             case 'submit':{
                 const div = document.createElement('div');                     
                 div.innerHTML = `<button for="myForm" class="register__form--submit ${action}" id= ${input.value[0]} name=${input.value[2]}></button>`
@@ -161,7 +156,7 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                 form.appendChild(div);
             } 
             break;
-            /*Este maneja el resto de los casos como date, text, number */
+            /* Este maneja el resto de los casos como date, text, number */
             default:{
                 const div = document.createElement('div');                     
                 div.innerHTML = `
@@ -171,13 +166,14 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
                 input.typeInput === 'textarea' ? div.querySelector('.input__form').style.resize = 'none' : ''; //Si es textarea el usuario no puede modificar el tamaño
                 form.appendChild(div);
                 if (action == 'edit'){
-                    //EDITAR
+                    // EDITAR
+                    /* Llena los input con el valor correspondiente extraído de la base de datos */
                     const collection = await getData(`${endpoint}/${id}`);
                     div.querySelector(`input[name="${input.value[2]}"]`).value = collection[input.value[2]];
-                    // console.log(collection[input.value[2]])
-                    // div.querySelector('input').value = collection[input.value[2]];
                 }
                 else if (action == 'search') {
+                    // BUSCAR
+                    /* Llena los input con el valor correspondiente extraído de la base de datos */
                     const collection = await getData(`${endpoint}/${id}`);
                     div.querySelector(`input[name="${input.value[2]}"]`).value = collection[input.value[2]];
                 }
@@ -188,28 +184,26 @@ async function addForm(newForm, action, container, aditionalAtributte, endpoint,
         }
     
     })
-}
+};
 
-/** FUNCION PARA HACER LA BUSQUEDA */
+/** Funcion para hacer la busqueda */
 function search(URL, action, ref, item, container){
     const containerBody = document.createElement('section');
     document.querySelector('.container-crud').appendChild(containerBody);
-
     container.querySelector('button').addEventListener('click', async (event)=>{
         containerBody.innerHTML = ``
-        event.preventDefault(); //Para que no se recargue la pagina
+        event.preventDefault(); //Para que no se recargue la pagina (NI SIRVE)
         let inputUser = container.querySelector('input').value; // Valor del input del usuario 
-        console.log(`El usuario ha escrito ${inputUser} y se supone que va a la ruta ${URL} :p`);
-        
-        /*solicita los datos*/
-        const dataFound = getInfo(event, URL, inputUser); 
-        /*lo siguiente solo se ejecuta si se encuentra la data*/
-        if (inputUser == "") {
+        /* Solicita los datos */
+        // const dataFound = getInfo(event, URL, inputUser); 
+        /* Lo siguiente solo se ejecuta si se encuentra la data */
+        if (inputUser == "") { 
             alert('Ingrese un ID para buscar');
         } else {
             if (action  == 'edit'){
+                /* Realiza la busqueda */
                 const searchResult = await getDataId(URL, inputUser);
-                if (Object.keys(searchResult).length === 0) {
+                if (Object.keys(searchResult).length === 0) { /* Si no existen datos en la base, se imprime el texto */
                     containerBody.innerHTML += `<p>No se encontró</p`
                 } else {
                     const initialSettings = ['.container-crud', 'section', 'container-form', 'register__form', `Actualizar ${item}`];
@@ -217,21 +211,21 @@ function search(URL, action, ref, item, container){
                     addForm(JSON.parse(ref),'edit', container, "required=true", URL, inputUser);
                     putInfo(URL, inputUser);
                 }
-            } else{
+            } else {
                 showResults(URL, inputUser, action, ref, item, containerBody);
             }
         }
     })
-    
-}
-// Funcion para mostrar los resultados :D !
+};
+
+// Funcion para mostrar los resultados
 async function showResults(URL, inputUser, action, ref, item, containerBody){
     containerBody.classList.add('container-crud__body');
     const searchResult = await getDataId(URL, inputUser);
-    if (Object.keys(searchResult).length === 0) {
+    if (Object.keys(searchResult).length === 0) { /* Si no existen datos en la base, se imprime el texto */
         containerBody.innerHTML += `<p>No se encontró</p`
     }
-    else {
+    else { /* Muestra el contenedor */
         containerBody.innerHTML += `
         <div class="crud__search-result">
         <div class="search-result">
@@ -240,7 +234,7 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
         </div>                  
         `;
         const containerResult = document.querySelector('.crud__search-result');
-        if (searchResult.name != undefined) {
+        if (searchResult.name != undefined) { /* Si existe el atributo name, se muestra */
             containerResult.innerHTML += `
             <div class="search-result">
                 <h3 class="result-subtitle">Nombre</h3>
@@ -248,7 +242,7 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
             </div> 
             `;
         }
-        if (URL == "telephones") {
+        if (URL == "telephones") { /* Si la URL pertenece a telephones, se agrega al contenedor */
             const telephone = await getDataId(URL, searchResult.id);
             containerResult.innerHTML += `
             <div class="search-result">
@@ -261,7 +255,7 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
             </div> 
             `;
         }
-        if (URL == "persons") {
+        if (URL == "persons") { /* Si la URL pertenece a persons, se agrega al contenedor */
             const typePerson = await getDataId(`typesPerson`, searchResult.personType);
             containerResult.innerHTML += `
             <div class="search-result">
@@ -273,39 +267,135 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
     
         const btnCrud = document.createElement('button');
         containerBody.querySelector('.crud__search-result').appendChild(btnCrud);
-
-        //El boton se cambia segun la accion qu se esté haciendo, a cada addEventListener hay
+        //El boton se cambia segun la accion que se esté haciendo, a cada addEventListener hay
         let initialSettings;
         switch(action){
             case 'remove':
                 btnCrud.innerHTML = `<i class='bx bxs-trash' ></i>`;
-                if (URL == "actives") {
-                    const currentStatus = await getDataId('states', searchResult.activeStatus);
-                    btnCrud.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        if (currentStatus.name != 'De Baja') {
-                            alert('El activo debe estar dado de baja para eliminarse');
-                        } else {
-                            deleteInfo(e, URL, inputUser);
-                        }
-                    })
-                }
-                else if (URL == "persons") {
-                    const tels = await getData('telephones');
-                    btnCrud.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        deleteInfo(e, URL, inputUser);
-                        for (let tel of tels) {
-                            if (tel.phoneOwner == searchResult.id) {
-                                deleteData('telephones', tel.id);
+                /* Dependiendo de la URL, se hacen las validaciones correspondientes para evitar que se eliminen
+                elementos referenciados en otros */
+                switch (URL) {
+                    case 'actives':
+                        const currentStatus = await getDataId('states', searchResult.activeStatus);
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            if (currentStatus.name != 'De Baja') {
+                                alert('El activo debe estar dado de baja para eliminarse');
+                            } else {
+                                deleteInfo(e, URL, inputUser);
                             }
-                        }
-                    })
-                } else {
-                    btnCrud.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        deleteInfo(e, URL, inputUser);
-                    })
+                        })
+                        break;
+                    case 'persons':
+                        const tels = await getData('telephones');
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            deleteInfo(e, URL, inputUser);
+                            for (let tel of tels) {
+                                if (tel.phoneOwner == searchResult.id) {
+                                    deleteData('telephones', tel.id);
+                                }
+                            }
+                        })
+                        break;
+                    case 'typesPerson':
+                        const persons = await getData('persons');
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            let flag;
+                            if (Object.keys(persons).length != 0) {
+                                for (let person of persons) {
+                                    if (person.personType == searchResult.id) {
+                                        alert('No se puede eliminar un dato relacionado');
+                                        flag = true;
+                                        break;
+                                    } else {
+                                        flag = false;
+                                    }
+                                }
+                                if (flag == false) {
+                                    deleteInfo(e, URL, inputUser);
+                                }
+                            } else {
+                                deleteInfo(e, URL, inputUser);
+                            }
+                        })
+                        break;
+                    case 'typesActive':
+                        const actives = await getData('actives');
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            let flag;
+                            if (Object.keys(actives).length != 0) {
+                                for (let active of actives) {
+                                    if (active.activeType == searchResult.id) {
+                                        alert('No se puede eliminar un dato relacionado');
+                                        flag = true;
+                                        break;
+                                    } else {
+                                        flag = false;
+                                    }
+                                }
+                                if (flag == false) {
+                                    deleteInfo(e, URL, inputUser);
+                                }
+                            } else {
+                                deleteInfo(e, URL, inputUser);
+                            }
+                        })
+                        break;
+                    case 'states':
+                        const activesS = await getData('actives');
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            let flag;
+                            if (Object.keys(activesS).length != 0) {
+                                for (let active of activesS) {
+                                    if (active.activeStatus == searchResult.id) {
+                                        alert('No se puede eliminar un dato relacionado');
+                                        flag = true;
+                                        break;
+                                    } else {
+                                        flag = false;
+                                    }
+                                }
+                                if (flag == false) {
+                                    deleteInfo(e, URL, inputUser);
+                                }
+                            } else {
+                                deleteInfo(e, URL, inputUser);
+                            }
+                        })
+                        break;
+                    case 'brands':
+                        const activesB = await getData('actives');
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            let flag;
+                            if (Object.keys(activesB).length != 0) {
+                                for (let active of activesB) {
+                                    if (active.activeBrand == searchResult.id) {
+                                        alert('No se puede eliminar un dato relacionado');
+                                        flag = true;
+                                        break;
+                                    } else {
+                                        flag = false;
+                                    }
+                                }
+                                if (flag == false) {
+                                    deleteInfo(e, URL, inputUser);
+                                }
+                            } else {
+                                deleteInfo(e, URL, inputUser);
+                            }
+                        })
+                        break;
+                    default:
+                        btnCrud.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            deleteInfo(e, URL, inputUser);
+                        })
+                        break;
                 }
                 break;
             case 'search':
@@ -335,8 +425,22 @@ async function showResults(URL, inputUser, action, ref, item, containerBody){
                 break;
         } 
     }  
-}
+};
 
+// Verifica que los datos que se envíen no estén vacíos
+function checkForm(data){
+    const values = Object.values(data); 
+    for (let value of values) {
+        if (value.trim() === '' || value == "0"){
+            return false;
+        }
+    }
+    return true;
+};
+
+/* ------------------------------------ASIGNACIONES--------------------------------------------- */
+
+/* Carga botones asignacion */
 function loadAssignationButtons(container){
     const form = container.querySelector('.register__form');
     form.innerHTML += `
@@ -352,26 +456,27 @@ function loadAssignationButtons(container){
     /*RETORNAR ACTIVO*/
     document.querySelector('#return-active').addEventListener('click', (e)=>{
         e.preventDefault();
-        console.log("Retorna");
+        // console.log("Retorna");
     })
 
 
     /*DAR DE BAJA*/
     document.querySelector('#quit-active').addEventListener('click', (e)=>{
         e.preventDefault();
-        console.log("Da de baja");
+        // console.log("Da de baja");
     })
 
 
     /*ENVIAR A GARANTIA*/
     document.querySelector('#send-active').addEventListener('click', (e)=>{
         e.preventDefault();
-        console.log("Envia a garaantia");
+        // console.log("Envia a garaantia");
     })
-}
+};
 
+/* ----------------------------------FUNCIONES DEL CRUD---------------------------------------------- */
 
-//funcion para implementar la logica del put (actualizar elementos)
+// Funcion para implementar la logica del POST (actualizar elementos)
 function postInfo(URL){
     document.querySelector('.add').addEventListener('click', (e)=>{
         e.preventDefault();
@@ -387,30 +492,39 @@ function postInfo(URL){
         // console.log(datos);
         // console.log(typeof(datos));
     })
-}
+};
 
-//Funcion para implementar la logica del post (registrar elementos)
+// Funcion para implementar la logica del PUT (registrar elementos)
 async function putInfo(url, inputUser){
     const info = await getDataId(url, inputUser);
     document.querySelector('.edit').addEventListener('click', (e)=>{
         e.preventDefault();
         const datos = Object.fromEntries(new FormData(e.target.form).entries());
-        datos.activeStatus = info.activeStatus;
-        updateData(url, inputUser, datos);
-        console.log(datos)
-        console.log('Se oprimio un boton para hacer PUT en la url de ' + url );
+        if (url == "actives") {
+            datos.activeStatus = info.activeStatus;
+        }
+        if (checkForm(datos) == false){
+            alert('Debe llenar todos los campos');
+        } else{
+            updateData(url, inputUser, datos);
+        }
+        // console.log(datos)
+        // console.log('Se oprimio un boton para hacer PUT en la url de ' + url );
     })
-}
-//Funcion para implementar la logica del delete (eliminar elementos)
+};
+
+// Funcion para implementar la logica del DELETE (eliminar elementos)
 function deleteInfo(event, url, inputUser){
     deleteData(url, inputUser);
     event.preventDefault();
-    console.log('Se oprimió un boton para hacer DELETE en la URL de '+ url+ ' id:' +inputUser);
-}
+    // console.log('Se oprimió un boton para hacer DELETE en la URL de '+ url+ ' id:' +inputUser);
+};
+
+// Funcion para implementar la logica del GET (leer elementos)
 function getInfo(event, url, inputUser){
     getDataId(url, inputUser);
     event.preventDefault();
-    console.log('Se oprimió un boton para hacer buscar informacion en la URL de '+ url+ ' id:' +inputUser);
+    // console.log('Se oprimió un boton para hacer buscar informacion en la URL de '+ url+ ' id:' +inputUser);
     /*
     Si la accion es 'asign', se debe conseguir una LISTA de los activos del usuario
 
@@ -419,16 +533,4 @@ function getInfo(event, url, inputUser){
     
     se retorna el objeto
     */
-}
-
-//VERIFICA QUE LOS DATOS QUE SE ENVIEN NO ESTEN VACIOS
-function checkForm(data){
-    const values = Object.values(data); 
-    for (let value of values) {
-        // console.log(`values es ${value} - ${value.trim() === ''}`);
-        if (value.trim() === '' || value == "0"){
-            return false;
-        }
-    }
-    return true;
-}
+};
